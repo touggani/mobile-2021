@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobileapp/screens/home.dart';
 import 'package:mobileapp/screens/registration.dart';
 
 class Login extends StatefulWidget {
@@ -15,6 +19,9 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = new TextEditingController();
 
 
+  //Firebase
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
 
@@ -22,6 +29,15 @@ class _LoginState extends State<Login> {
       autofocus: false,
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
+      validator: (value){
+        if(value!.isEmpty){
+          return("Entrez votre adresse mail");
+        }
+        if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)){
+          return ("Entrez une adresse mail correcte");
+        }
+        return null;
+      },
       onSaved: (value){
         emailController.text = value!;
       },
@@ -40,6 +56,15 @@ class _LoginState extends State<Login> {
       autofocus: false,
       controller: passwordController,
       obscureText: true,
+      validator: (value){
+        RegExp regex = new RegExp(r'^.{6,}$');
+        if(value!.isEmpty){
+          return("Entrez un mot de passe");
+        }
+        if(!regex.hasMatch(value)){
+          return ("le mot de passe doit être de 6 caracteres minimum");
+        }
+      },
       onSaved: (value){
         passwordController.text = value!;
       },
@@ -61,7 +86,9 @@ class _LoginState extends State<Login> {
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
-        onPressed: (){},
+        onPressed: (){
+          Connexion(emailController.text, passwordController.text);
+        },
         child: Text(
           "Connexion",
           textAlign: TextAlign.center,
@@ -115,4 +142,19 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+
+  void Connexion(String email, String password) async{
+    if(_formKey.currentState!.validate()){
+      await _auth
+      .signInWithEmailAndPassword(email: email, password: password)
+      .then((uid) => {
+        Fluttertoast.showToast(msg: "Connexion réussi"),
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home())),
+
+      }).catchError((e){
+        Fluttertoast.showToast(msg: e!.message);
+      });
+      };
+    }
 }
