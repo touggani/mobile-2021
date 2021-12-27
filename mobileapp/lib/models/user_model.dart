@@ -20,10 +20,10 @@ class UserModel{
 //envoie vers serveur
   Map<String,dynamic> toMap(){
     return{
-      'uid': 'uid',
-      'email': 'email',
-      'nom': 'nom',
-      'prenom': 'prenom'
+      'uid': uid,
+      'email': email,
+      'nom': nom,
+      'prenom': prenom
     };
   }
 }
