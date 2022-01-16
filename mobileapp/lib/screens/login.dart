@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobileapp/screens/home.dart';
 import 'package:mobileapp/screens/registration.dart';
+import 'package:mobileapp/screens/navigation.dart';
 
 class Login extends StatefulWidget {
   const Login({ Key? key }) : super(key: key);
