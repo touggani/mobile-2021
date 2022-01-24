@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-class MyImage extends StatelessWidget {
-  const MyImage({Key? key, this.image, this.id}) : super(key: key);
+import 'film.dart';
 
-  final image;
-  final id;
+class MyImage extends StatelessWidget {
+  const MyImage({Key? key, this.film}) : super(key: key);
+
+  final film;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        body: _scrollImage(image, id));
+        body: _scrollImage(film));
   }
 
 
-  Widget _scrollImage(String image, int id) {
+  Widget _scrollImage(Film film) {
     //Plein écran lors de l'affichage de la fenêtre
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     return NestedScrollView(
@@ -31,15 +32,17 @@ class MyImage extends StatelessWidget {
                 centerTitle: true,
                 //titlePadding: EdgeInsetsDirectional.all(0),
                 title: Text(
-                  'Toto',
+                  film.title!,
                 ),
                 background: Image.network(
-                  image,
+                  film.backdropPath != null ? 'https://image.tmdb.org/t/p/w500/' +
+                      film.backdropPath!
+                      : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png',
                   fit: BoxFit.cover,
                 )),
           ),
 
         ];
-      }, body: Text(id.toString()),);
+      }, body: Text(film.id.toString()),);
   }
 }

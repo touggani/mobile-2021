@@ -1,6 +1,16 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
+
+import 'api_result.dart';
+import 'film.dart';
+import 'package:http/http.dart' as http;
+
+import 'image.dart';
 
 class Recherche extends StatefulWidget {
   const Recherche({Key? key}) : super(key: key);
@@ -10,18 +20,68 @@ class Recherche extends StatefulWidget {
 }
 
 class _RechercheState extends State<Recherche> {
-  bool _isStartersOn = false;
-  bool _isDishesOn = false;
-  bool _isDesertsOn = false;
+  bool _isAdultOn = false;
+  final ScrollController _scrollController = ScrollController();
+  bool loading = false;
+  bool allloaded = false;
+  bool init = false;
+  var _query = '';
+
+  ApiResult? _apiResult;
+  List<Film> _films = [];
 
   bool _isSearchEmpty = true;
 
-  final duplicateItems = List<String>.generate(10, (i) => "Item $i");
+  // String query = '';
+  // Timer? debouncer;
 
-  void filterSearchResults(String query) {
+  void filterSearchResults() {
     setState(() {
-      _isSearchEmpty = query.isEmpty;
+      init = false;
+      _isSearchEmpty = _query.isEmpty;
+      loading = true;
+      _films = [];
+      _apiResult = null;
     });
+    getSearchFilms();
+  }
+
+  // @override
+  // void dispose(){
+  //   debouncer?.cancel();
+  //   super.dispose();
+  // }
+  //
+  // void debounce(
+  //     VoidCallback callback, {
+  //       Duration duration = const Duration(milliseconds: 1000),
+  //     }){
+  //
+  //   if(debouncer != null){
+  //     debouncer!.cancel();
+  //   }
+  //   debouncer = Timer(duration, callback);
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent &&
+          !loading) {
+        if (_films.isNotEmpty) getSearchFilms();
+        print("Refresh");
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -30,18 +90,30 @@ class _RechercheState extends State<Recherche> {
         child: Column(children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              //controller: editingController,
-              onChanged: (value) {
-                filterSearchResults(value);
+            child: Row ( children: [Expanded(
+              child: TextField(
+                //controller: editingController,
+                onChanged: (value) {
+                  setState(() {
+                  _query = value;
+                  });
+                },
+                decoration: InputDecoration(
+                    labelText: "Rechercher",
+                    hintText: "Matrix 2...",
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+              ),
+            ),ElevatedButton(
+              onPressed: () {
+                filterSearchResults();
               },
-              decoration: InputDecoration(
-                  labelText: "Rechercher",
-                  hintText: "Matrix 2...",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+              style : ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),),
+              child: const Text('Rechercher'),
             ),
+              
+            ])
           ),
           Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
@@ -52,76 +124,20 @@ class _RechercheState extends State<Recherche> {
                   avatar: CircleAvatar(
                     backgroundColor: Colors.blueAccent,
                     child: Icon(
-                      _isStartersOn
+                      _isAdultOn
                           ? Icons.bakery_dining_rounded
                           : Icons.bakery_dining_outlined,
                       color: Colors.white,
                       size: 20,
                     ),
                   ),
-                  label: Text('Thriller'),
+                  label: Text('+18'),
                   onPressed: () {
                     setState(() {
-                      _isStartersOn = !_isStartersOn;
+                      _isAdultOn = !_isAdultOn;
                     });
                     ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Thriller')));
-                  },
-                  backgroundColor: Colors.grey[200],
-                  shape: StadiumBorder(
-                      side: BorderSide(
-                        width: 1,
-                        color: Colors.redAccent,
-                      )),
-                ),
-                ActionChip(
-                  elevation: 8.0,
-                  padding: EdgeInsets.all(2.0),
-                  avatar: CircleAvatar(
-                    backgroundColor: Colors.redAccent,
-                    child: Icon(
-                      _isDishesOn
-                          ? Icons.bakery_dining_rounded
-                          : Icons.bakery_dining_outlined,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                  label: Text('Romance'),
-                  onPressed: () {
-                    setState(() {
-                      _isDishesOn = !_isDishesOn;
-                    });
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Romance')));
-                  },
-                  backgroundColor: Colors.grey[200],
-                  shape: StadiumBorder(
-                      side: BorderSide(
-                        width: 1,
-                        color: Colors.redAccent,
-                      )),
-                ),
-                ActionChip(
-                  elevation: 8.0,
-                  padding: EdgeInsets.all(2.0),
-                  avatar: CircleAvatar(
-                    backgroundColor: Colors.yellowAccent,
-                    child: Icon(
-                      _isDesertsOn
-                          ? Icons.bakery_dining_rounded
-                          : Icons.bakery_dining_outlined,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                  label: Text('Documentaire'),
-                  onPressed: () {
-                    setState(() {
-                      _isDesertsOn = !_isDesertsOn;
-                    });
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Documentaire')));
+                        .showSnackBar(SnackBar(content: Text('+18')));
                   },
                   backgroundColor: Colors.grey[200],
                   shape: StadiumBorder(
@@ -131,24 +147,81 @@ class _RechercheState extends State<Recherche> {
                       )),
                 ),
               ])),
-          _isSearchEmpty
-              ? Expanded(child: Lottie.asset("assets/the-panda-eats-popcorn.json"))
+          !init
+              ? Expanded(
+              child: Lottie.asset("assets/the-panda-eats-popcorn.json"))
               : Expanded(
-            child: ListView.separated(
-              itemCount: duplicateItems.length,
+            child: Stack( children:[ListView.separated(
+              itemCount: _films.length,
+              controller: _scrollController,
               separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(duplicateItems[index]),
-                  leading: Icon(Icons.favorite),
-                  onTap: () {
+                  title: Text(_films[index].title!,
+                      style: GoogleFonts.indieFlower(
+                        color: CupertinoColors.black,
+                      )),
+                  leading: Image.network(_films[index]
+                      .posterPath !=
+                      null
+                      ? 'https://image.tmdb.org/t/p/w500' +
+                      _films[index].posterPath!
+                      : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'),
+    onTap: () {
+    Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => MyImage(
+    film: _films[index])));
+    }
                     // action
-                  },
                 );
               },
             ),
+              if (loading) ...[
+            Positioned(
+              left: 0,
+              bottom: 0,
+              child: Container(
+                height: 80,
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            )
+          ]
+        ])
           )
         ]));
+  }
+
+  Future<void> getSearchFilms() async {
+    if (allloaded) {
+      return;
+    }
+    setState(() {
+      loading = true;
+    });
+    var page = '&page=';
+    var adult = '&include_adult=' + _isAdultOn.toString();
+    var query = '&query=' + _query;
+    if (_apiResult?.page != null) {
+      page = page + (_apiResult!.page! + 1).toString();
+    } else {
+      page = page + '1';
+    }
+    var url = Uri.parse(
+        'https://api.themoviedb.org/3/search/multi?api_key=df33b16d1dd87d889bd119c06dd10960' +
+            page + adult + query);
+    debugPrint(url.toString());
+    var responseAPI = await http.get(url);
+    if (responseAPI.statusCode == 200) {
+      setState(() {
+        _apiResult = ApiResult.fromJson(jsonDecode(responseAPI.body));
+        _films = _films + _apiResult!.results!;
+        loading = false;
+        if (!init) init = true;
+        if (_apiResult!.page == _apiResult!.totalPages) {
+          allloaded = true;
+        }
+      });
+    }
   }
 }

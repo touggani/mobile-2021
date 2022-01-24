@@ -114,7 +114,7 @@ class Item extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          MyImage(id: film.id,image: 'https://image.tmdb.org/t/p/w500/' + film.backdropPath!)
+                          MyImage(film: film)
                   ));
                 },
               ),

@@ -124,11 +124,7 @@ class _AccueilState extends State<Accueil> {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => MyImage(
-                                      image: _films[index].backdropPath != null
-                                          ? 'https://image.tmdb.org/t/p/w500/' +
-                                              _films[index].backdropPath!
-                                          : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png',
-                                      id: _films[index].id)));
+                                      film: _films[index])));
                             },
                           ),
                           Container(
