@@ -41,7 +41,7 @@ class Film {
     popularity = json['popularity'];
     posterPath = json['poster_path'];
     releaseDate = json['release_date'];
-    title = json['title'] != null ? json['title'] : json['name'];
+    title = json['title'];
     video = json['video'];
     voteAverage = json['vote_average'];
     voteCount = json['vote_count'];

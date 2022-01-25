@@ -10,6 +10,7 @@ import 'api_result.dart';
 import 'film.dart';
 import 'package:http/http.dart' as http;
 
+import 'genre.dart';
 import 'image.dart';
 
 class Recherche extends StatefulWidget {
@@ -25,15 +26,15 @@ class _RechercheState extends State<Recherche> {
   bool loading = false;
   bool allloaded = false;
   bool init = false;
+  bool genre_ok = false;
+  bool recherce_par_genre = false;
   var _query = '';
 
   ApiResult? _apiResult;
   List<Film> _films = [];
+  Genres? _genres;
 
   bool _isSearchEmpty = true;
-
-  // String query = '';
-  // Timer? debouncer;
 
   void filterSearchResults() {
     setState(() {
@@ -46,27 +47,11 @@ class _RechercheState extends State<Recherche> {
     getSearchFilms();
   }
 
-  // @override
-  // void dispose(){
-  //   debouncer?.cancel();
-  //   super.dispose();
-  // }
-  //
-  // void debounce(
-  //     VoidCallback callback, {
-  //       Duration duration = const Duration(milliseconds: 1000),
-  //     }){
-  //
-  //   if(debouncer != null){
-  //     debouncer!.cancel();
-  //   }
-  //   debouncer = Timer(duration, callback);
-  // }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getGenres();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent &&
@@ -105,15 +90,38 @@ class _RechercheState extends State<Recherche> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
-            ),ElevatedButton(
-              onPressed: () {
-                filterSearchResults();
-              },
-              style : ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),),
-              child: const Text('Rechercher'),
-            ),
-              
+            )
             ])
+          ),
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row ( children: [ Expanded( child:
+
+                !recherce_par_genre ? ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      recherce_par_genre = !recherce_par_genre;
+                    });
+                  },
+                  style : ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),),
+                  child: const Text('Rechercher par genres'),
+                ) : ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      recherce_par_genre = !recherce_par_genre;
+                    });
+                  },
+                  style : ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),),
+                  child: const Text('Rechercher par texte'),
+                )),ElevatedButton(
+                  onPressed: () {
+                    filterSearchResults();
+                  },
+                  style : ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),),
+                  child: const Text('Rechercher'),
+                )
+
+              ])
           ),
           Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
@@ -208,7 +216,7 @@ class _RechercheState extends State<Recherche> {
       page = page + '1';
     }
     var url = Uri.parse(
-        'https://api.themoviedb.org/3/search/multi?api_key=df33b16d1dd87d889bd119c06dd10960' +
+        'https://api.themoviedb.org/3/search/movie?api_key=df33b16d1dd87d889bd119c06dd10960' +
             page + adult + query);
     debugPrint(url.toString());
     var responseAPI = await http.get(url);
@@ -221,6 +229,20 @@ class _RechercheState extends State<Recherche> {
         if (_apiResult!.page == _apiResult!.totalPages) {
           allloaded = true;
         }
+      });
+    }
+  }
+
+  Future<void> getGenres() async {
+
+    var url = Uri.parse(
+        'https://api.themoviedb.org/3/genre/movie/list?api_key=df33b16d1dd87d889bd119c06dd10960');
+    debugPrint(url.toString());
+    var responseAPI = await http.get(url);
+    if (responseAPI.statusCode == 200) {
+      setState(() {
+        _genres = Genres.fromJson(jsonDecode(responseAPI.body));
+        genre_ok = true;
       });
     }
   }
