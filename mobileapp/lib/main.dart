@@ -1,6 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobileapp/screens/Profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'screens/globals.dart' as globals;
+import 'package:mobileapp/screens/navigation.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,24 +13,41 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.orange,
-      ),
-      home: Profil(),
-    );
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user == null) {
+        globals.isLoggedIn = false;
+        print('User is currently signed out!');
+      } else {
+        globals.isLoggedIn = true;
+        print('User is signed in!');
+      }
+    });
+    print(globals.isLoggedIn);
+    if(globals.isLoggedIn){
+      return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+        ),
+        home: Navigation(),
+      );
+    }
+    else{
+      return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+        ),
+        home: Profil(),
+      );
+    }
+
   }
 }

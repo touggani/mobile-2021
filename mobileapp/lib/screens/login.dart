@@ -163,7 +163,7 @@ class _LoginState extends State<Login> {
       .signInWithEmailAndPassword(email: email, password: password)
       .then((uid) => {
         Fluttertoast.showToast(msg: "Connexion réussi"),
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Home())),
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navigation())),
 
       }).catchError((e){
         Fluttertoast.showToast(msg: e!.message);
