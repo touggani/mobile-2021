@@ -54,7 +54,17 @@ class MyImage extends StatelessWidget {
           ),
         ];
       },
-      body: Text(film.id.toString()),
+      body: Column(
+        children: [
+          Text(film.id.toString()),
+          Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.favorite_border,
+                color: Colors.black,
+              ))
+        ],
+      ),
     );
   }
 }
