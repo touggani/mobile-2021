@@ -178,14 +178,10 @@ class _RechercheState extends State<Recherche> {
               },
             ),
               if (loading) ...[
-            Positioned(
-              left: 0,
-              bottom: 0,
-              child: Container(
-                height: 80,
-                child: Center(child: CircularProgressIndicator()),
-              ),
-            )
+                Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Container(height: 80,child: Center(child: CircularProgressIndicator())),
+                ),
           ]
         ])
           )
