@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:lottie/lottie.dart';
 import 'recherche.dart';
 import 'accueil.dart';
 import 'favoris.dart';
@@ -46,11 +47,23 @@ class _navigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cinema\'Tic',
-            style: GoogleFonts.mochiyPopOne(
-              color: CupertinoColors.black,
-              fontSize: 25,
-            )),
+          leading:Lottie.asset("assets/camera-moving.json"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Cinema',
+              style: GoogleFonts.mochiyPopOne(
+                color: CupertinoColors.black,
+                fontSize: 25,
+              )),
+            Text('\'Tic',
+              style: GoogleFonts.mochiyPopOne(
+                color: Colors.orange,
+                fontSize: 25,
+              ))
+          ],
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
