@@ -22,7 +22,7 @@ class _navigationState extends State<Navigation> {
 
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   void _onItemTapped(int index) {
     setState(() {
@@ -47,7 +47,7 @@ class _navigationState extends State<Navigation> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cinema\'Tic',
-            style: GoogleFonts.courgette(
+            style: GoogleFonts.mochiyPopOne(
               color: CupertinoColors.black,
               fontSize: 25,
             )),

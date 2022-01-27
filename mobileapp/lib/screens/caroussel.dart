@@ -21,11 +21,9 @@ class _CarrousselState extends State<Carroussel> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cardList=[
-      Item(film: widget.films[0],),
-      Item(film: widget.films[1],),
-      Item(film: widget.films[2],),
-    ];
+    for (var film in widget.films){
+      cardList.add(Item(film: film));
+    }
   }
 
   List<T> map<T>(List list, Function handler) {
@@ -131,7 +129,7 @@ class Item extends StatelessWidget {
                     Expanded(child: Container(), flex: 8),
                     Container(
                         width: double.infinity,
-                        height: 30,
+                        height: 40,
                         color: Colors.white.withOpacity(0.7),
                         //alignment: Alignment.bottomCenter,
                         /*decoration: BoxDecoration(
@@ -141,13 +139,13 @@ class Item extends StatelessWidget {
                         child: Padding(
                             padding:
                             EdgeInsets.only(right: 8.0, left: 8.0),
-                            child: FittedBox(
-                                fit: BoxFit.contain,
-                                child: Text(film.title!,
-                                    style: GoogleFonts.indieFlower(
-                                      color: CupertinoColors.black,
-                                      //fontSize: 25,
-                                    ))))),
+                            child: Center(
+                              child: Text(film.title!,
+                                  style: GoogleFonts.roboto(
+                                    color: CupertinoColors.black,
+                                    fontSize: 15,
+                                  )),
+                            ))),
                   ]))
             ])
     );

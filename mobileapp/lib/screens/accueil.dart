@@ -22,7 +22,11 @@ class _AccueilState extends State<Accueil> {
   final ScrollController _scrollController = ScrollController();
 
   ApiResult? _apiResult;
+  ApiResult? _apiResultPopular;
   List<Film> _films = [];
+  List<Film> _filmsPopular = [];
+
+
 
   Future<void> getFilms() async {
     if (allloaded) {
@@ -55,11 +59,25 @@ class _AccueilState extends State<Accueil> {
     }
   }
 
+  Future<void> getFilmPopular() async {
+    var url_popular = Uri.parse(
+        'https://api.themoviedb.org/3/movie/popular?api_key=df33b16d1dd87d889bd119c06dd10960&page=1');
+    var responseAPIPopular = await http.get(url_popular);
+    if (responseAPIPopular.statusCode == 200) {
+      setState(() {
+        _apiResultPopular = ApiResult.fromJson(jsonDecode(responseAPIPopular.body));
+        _filmsPopular = _apiResultPopular!.results!;
+      });
+      getFilms();
+    }
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getFilms();
+    getFilmPopular();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
               _scrollController.position.maxScrollExtent &&
@@ -87,87 +105,86 @@ class _AccueilState extends State<Accueil> {
         controller: _scrollController,
         children: [
           Carroussel(
-            films: _films,
+            films: _filmsPopular,
           ),
-          GridView.builder(
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200,
-                  childAspectRatio: 3 / 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20),
-              itemCount: _films.length,
-              itemBuilder: (context, index) {
-                return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Stack(
-                        alignment: AlignmentDirectional.bottomCenter,
-                        children: [
-                          InkWell(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                                image: DecorationImage(
-                                  image: NetworkImage(_films[index]
-                                              .backdropPath !=
-                                          null
-                                      ? 'https://image.tmdb.org/t/p/w500/' +
-                                          _films[index].backdropPath!
-                                      : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'),
-                                  fit: BoxFit.cover,
+          Padding(
+            padding: EdgeInsets.fromLTRB(5,0,5,0),
+            child: GridView.builder(
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5),
+                itemCount: _films.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: Stack(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          children: [
+                            InkWell(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
+                                  image: DecorationImage(
+                                    image: NetworkImage(_films[index]
+                                                .backdropPath !=
+                                            null
+                                        ? 'https://image.tmdb.org/t/p/w500/' +
+                                            _films[index].backdropPath!
+                                        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => MyImage(
+                                        film: _films[index])));
+                              },
                             ),
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => MyImage(
-                                      film: _films[index])));
-                            },
-                          ),
-                          Container(
-                              child: Column(children: [
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.favorite_border,
-                                      color: Colors.white,
-                                    )),
-                              ),
-                            ),
-                            Expanded(child: Container(), flex: 8),
                             Container(
-                                width: double.infinity,
-                                height: 30,
-                                color: Colors.white.withOpacity(0.7),
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.only(right: 8.0, left: 8.0),
-                                    child: FittedBox(
-                                        fit: BoxFit.contain,
-                                        child: Text(_films[index].title!,
-                                            style: GoogleFonts.indieFlower(
-                                              color: CupertinoColors.black,
-                                            ))))),
-                          ]))
-                        ]));
-              })
+                                child: Column(children: [
+                              Expanded(
+                                child: Container(
+                                  alignment: Alignment.topRight,
+                                  child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.white,
+                                      )),
+                                ),
+                              ),
+                              Expanded(child: Container(), flex: 8),
+                              Container(
+                                  width: double.infinity,
+                                  height: 35,
+                                  color: Colors.white.withOpacity(0.7),
+                                  child: Padding(
+                                      padding:
+                                          EdgeInsets.only(right: 8.0, left: 8.0),
+                                      child: Center(
+                                          child: Text(_films[index].title!,
+                                              style: GoogleFonts.roboto(
+                                                color: CupertinoColors.black,
+                                                fontSize: 10,
+                                              ))))),
+                            ]))
+                          ]));
+                }),
+          )
         ],
       ),
       if (loading) ...[
-        Positioned(
-          left: 0,
-          bottom: 0,
-          child: Container(
-            height: 80,
-            child: Center(child: CircularProgressIndicator()),
+          Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Container(height: 80,child: Center(child: CircularProgressIndicator())),
           ),
-        )
       ]
     ]);
   }
