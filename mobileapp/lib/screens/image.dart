@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'film.dart';
 
@@ -33,6 +35,9 @@ class MyImage extends StatelessWidget {
                 //titlePadding: EdgeInsetsDirectional.all(0),
                 title: Text(
                   film.title!,
+                style: GoogleFonts.roboto(
+        color: CupertinoColors.black,
+        )
                 ),
                 background: Image.network(
                   film.backdropPath != null ? 'https://image.tmdb.org/t/p/w500/' +
