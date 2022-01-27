@@ -159,15 +159,16 @@ class _RechercheState extends State<Recherche> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(_films[index].title!,
-                      style: GoogleFonts.indieFlower(
+                      style: GoogleFonts.roboto(
                         color: CupertinoColors.black,
+                        fontSize: 10,
                       )),
                   leading: Image.network(_films[index]
                       .posterPath !=
                       null
                       ? 'https://image.tmdb.org/t/p/w500' +
                       _films[index].posterPath!
-                      : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png'),
+                      : 'https://i.imgur.com/R7mqXKL.png'),
     onTap: () {
     Navigator.of(context).push(MaterialPageRoute(
     builder: (context) => MyImage(
