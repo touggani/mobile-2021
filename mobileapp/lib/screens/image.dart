@@ -86,8 +86,9 @@ class _MyImageState extends State<MyImage> {
         children: [
           IconButton(
             icon: Icon(
-              Icons.favorite,
-              color: _isLikeOn == true ? Colors.pink : Colors.grey,
+              _isLikeOn == true ? Icons.favorite :
+              Icons.favorite_border,
+              color: Colors.orange,
             ),
             onPressed: () {
               setState(() {
