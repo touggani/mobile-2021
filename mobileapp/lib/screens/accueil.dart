@@ -10,6 +10,7 @@ import 'caroussel.dart';
 import 'film.dart';
 import 'package:http/http.dart' as http;
 
+
 class Accueil extends StatefulWidget {
   @override
   _AccueilState createState() => _AccueilState();
@@ -104,6 +105,7 @@ class _AccueilState extends State<Accueil> {
     if (!init) {
       return Loading();
     }
+
     return Stack(children: [
       ListView(
         controller: _scrollController,
@@ -179,7 +181,8 @@ class _AccueilState extends State<Accueil> {
                                                 fontSize: 10,
                                               ))))),
                             ]))
-                          ]));
+
+                          ]),);
                 }),
           )
         ],

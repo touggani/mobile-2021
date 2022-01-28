@@ -3,27 +3,37 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+
 
 import 'film.dart';
 
 class MyImage extends StatefulWidget {
+
   const MyImage({Key? key, this.film}) : super(key: key);
   final film;
-
   @override
   State<MyImage> createState() => _MyImageState();
+
 }
 
 class _MyImageState extends State<MyImage> {
   bool _isLikeOn = false;
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: Colors.white, body: _scrollImage(widget.film));
   }
 
   List<Widget> _widgetList(Film film) {
+
+
+
     List<Widget> myList = [];
     film.toJson().forEach((key, value) {
       myList.add(ListTile(
@@ -43,6 +53,8 @@ class _MyImageState extends State<MyImage> {
   }
 
   Widget _scrollImage(Film film) {
+
+
     //Plein écran lors de l'affichage de la fenêtre
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     return NestedScrollView(
@@ -88,10 +100,14 @@ class _MyImageState extends State<MyImage> {
             icon: Icon(
               Icons.favorite,
               color: _isLikeOn == true ? Colors.pink : Colors.grey,
+
             ),
             onPressed: () {
+              Hive.box("favorites").add(film.backdropPath);
+              print("Add ${Hive.box("favorites").get(0)} to favorites");
               setState(() {
                 _isLikeOn = !_isLikeOn;
+
               });
               final snackBar = SnackBar(
                 content: _isLikeOn == true
@@ -120,9 +136,11 @@ class _MyImageState extends State<MyImage> {
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
           ),
-          Expanded(child: ListView(children: _widgetList(film)))
+          Expanded(child: ListView(children: _widgetList(film))),
+          //Text(name)
         ],
       ),
+
     );
   }
 }
