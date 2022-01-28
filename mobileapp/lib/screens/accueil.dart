@@ -160,43 +160,103 @@ class _AccueilState extends State<Accueil> {
       ListView(
         controller: _scrollController,
         children: [
-          Center(child: Text("Les films populaires aujourd'hui",style: GoogleFonts.mochiyPopOne(
-      color: CupertinoColors.black,
-      fontSize: 15,
-    ))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Les films populaires ',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: CupertinoColors.black,
+                    fontSize: 15,
+                  )),
+              Text('aujourd\'hui',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: Colors.orange,
+                    fontSize: 15,
+                  ))
+            ],
+          ),
           Carroussel(
             films: _filmsPopular,
             ratio: 2.0,
             enlarge: true,
           ),
-          Center(child: Text("Action",style: GoogleFonts.mochiyPopOne(
-            color: CupertinoColors.black,
-            fontSize: 15,
-          ))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Genre ',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: CupertinoColors.black,
+                    fontSize: 15,
+                  )),
+              Text('action',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: Colors.orange,
+                    fontSize: 15,
+                  ))
+            ],
+          ),
           Carroussel(
             films: _filmsAction,
             ratio: 4.0,
           ),
-          Center(child: Text("Romance",style: GoogleFonts.mochiyPopOne(
-            color: CupertinoColors.black,
-            fontSize: 15,
-          ))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Genre ',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: CupertinoColors.black,
+                    fontSize: 15,
+                  )),
+              Text('romance',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: Colors.orange,
+                    fontSize: 15,
+                  ))
+            ],
+          ),
           Carroussel(
             films: _filmsRomance,
             ratio: 4.0,
           ),
-          Center(child: Text("Animation",style: GoogleFonts.mochiyPopOne(
-            color: CupertinoColors.black,
-            fontSize: 15,
-          ))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Genre ',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: CupertinoColors.black,
+                    fontSize: 15,
+                  )),
+              Text('animation',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: Colors.orange,
+                    fontSize: 15,
+                  ))
+            ],
+          ),
           Carroussel(
             films: _filmsAnimation,
             ratio: 4.0,
           ),
-          Center(child: Text("Tous les films",style: GoogleFonts.mochiyPopOne(
-            color: CupertinoColors.black,
-            fontSize: 15,
-          ))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Tous ',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: Colors.orange,
+                    fontSize: 15,
+                  )),
+              Text('les films',
+                  style: GoogleFonts.mochiyPopOne(
+                    color: CupertinoColors.black,
+                    fontSize: 15,
+                  ))
+            ],
+          ),
           Padding(
             padding: EdgeInsets.fromLTRB(5,0,5,0),
             child: GridView.builder(
