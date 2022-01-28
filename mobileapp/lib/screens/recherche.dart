@@ -87,6 +87,7 @@ class _RechercheState extends State<Recherche> {
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
             ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.025,),
             ElevatedButton(
               onPressed: () {
                 filterSearchResults();
