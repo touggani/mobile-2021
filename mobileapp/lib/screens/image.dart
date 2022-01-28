@@ -4,14 +4,20 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'film.dart';
 
-class MyImage extends StatelessWidget {
+class MyImage extends StatefulWidget {
   const MyImage({Key? key, this.film}) : super(key: key);
-
   final film;
 
   @override
+  State<MyImage> createState() => _MyImageState();
+}
+
+class _MyImageState extends State<MyImage> {
+  bool _isLikeOn = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white, body: _scrollImage(film));
+    return Scaffold(backgroundColor: Colors.white, body: _scrollImage(widget.film));
   }
 
   Widget _scrollImage(Film film) {
@@ -57,12 +63,36 @@ class MyImage extends StatelessWidget {
       body: Column(
         children: [
           Text(film.id.toString()),
-          Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.favorite_border,
-                color: Colors.black,
-              ))
+          IconButton(
+            icon: Icon(
+              Icons.favorite,
+              color: _isLikeOn == true ? Colors.pink : Colors.grey,
+            ),
+            onPressed: () {
+              setState(() {
+                _isLikeOn = !_isLikeOn;
+              });
+              final snackBar = SnackBar(
+                content: _isLikeOn == true
+                    ? Text('Vous avez ajouté '+ film.title.toString() + ' à vos favoris.')
+                    : Text('Vous avez retiré '+ film.title.toString() + ' de vos favoris.'),
+                action: SnackBarAction(
+                  label: 'Annuler',
+                  onPressed: () {
+                    setState(() {
+                      _isLikeOn = !_isLikeOn;
+                    });
+                    final snackBar = SnackBar(
+                        content: _isLikeOn == true
+                            ? Text(film.title.toString() + ' a été rajouté à vos favoris.')
+                            : Text(film.title.toString() + ' a été retiré de vos favoris.'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                ),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+          ),
         ],
       ),
     );
