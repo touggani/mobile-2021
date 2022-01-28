@@ -104,7 +104,7 @@ class _navigationState extends State<Navigation> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
-        unselectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.black,
         showUnselectedLabels: true,
       ),
     );

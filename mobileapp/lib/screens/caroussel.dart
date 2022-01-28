@@ -10,8 +10,9 @@ class Carroussel extends StatefulWidget {
   final List<Film> films;
   final double ratio;
   final bool enlarge;
+  final double fraction;
 
-  Carroussel({required this.films, required this.ratio, this.enlarge = false});
+  Carroussel({required this.films, this.ratio = 3.0, this.enlarge = false, this.fraction = 0.5});
 
   @override
   _CarrousselState createState() => _CarrousselState();
@@ -52,6 +53,9 @@ class _CarrousselState extends State<Carroussel> {
           enlargeCenterPage: widget.enlarge,
           pageSnapping: true,
           aspectRatio: widget.ratio,
+          initialPage: 10,
+          viewportFraction: widget.fraction,
+          //enlargeStrategy: CenterPageEnlargeStrategy.height,
           onPageChanged: (index, reason) {
             setState(() {
               _currentIndex = index;

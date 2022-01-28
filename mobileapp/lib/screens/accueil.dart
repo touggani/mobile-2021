@@ -183,6 +183,7 @@ class _AccueilState extends State<Accueil> {
             films: _filmsPopular,
             ratio: 2.0,
             enlarge: true,
+            fraction: 0.8
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -202,7 +203,6 @@ class _AccueilState extends State<Accueil> {
           ),
           Carroussel(
             films: _filmsAction,
-            ratio: 4.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -222,7 +222,6 @@ class _AccueilState extends State<Accueil> {
           ),
           Carroussel(
             films: _filmsRomance,
-            ratio: 4.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -242,7 +241,6 @@ class _AccueilState extends State<Accueil> {
           ),
           Carroussel(
             films: _filmsAnimation,
-            ratio: 4.0,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
