@@ -23,10 +23,59 @@ class _AccueilState extends State<Accueil> {
 
   ApiResult? _apiResult;
   ApiResult? _apiResultPopular;
+  ApiResult? _apiResultAction;
+  ApiResult? _apiResultRomance;
+  ApiResult? _apiResultAnimation;
   List<Film> _films = [];
   List<Film> _filmsPopular = [];
+  List<Film> _filmsAction = [];
+  List<Film> _filmsRomance = [];
+  List<Film> _filmsAnimation = [];
 
+  Future<void> getGenreAction() async {
+    var url_action = Uri.parse(
+        'https://api.themoviedb.org/3/discover/movie?api_key=df33b16d1dd87d889bd119c06dd10960&with_genres=28');
+    debugPrint("[${DateTime.now()}]: Appel API : ${url_action.toString()}");
+    var responseAPIAction = await http.get(url_action);
+    if (responseAPIAction.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPIAction.statusCode}");
+      setState(() {
+        _apiResultAction = ApiResult.fromJson(jsonDecode(responseAPIAction.body));
+        _filmsAction = _apiResultAction!.results!;
+      });
+    }
+  }
 
+  Future<void> getGenreRomance() async {
+    var url_romance = Uri.parse(
+        'https://api.themoviedb.org/3/discover/movie?api_key=df33b16d1dd87d889bd119c06dd10960&with_genres=10749');
+    debugPrint("[${DateTime.now()}]: Appel API : ${url_romance.toString()}");
+    var responseAPIRomance = await http.get(url_romance);
+    if (responseAPIRomance.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPIRomance.statusCode}");
+      setState(() {
+        _apiResultRomance = ApiResult.fromJson(jsonDecode(responseAPIRomance.body));
+        _filmsRomance = _apiResultRomance!.results!;
+      });
+    }
+  }
+
+  Future<void> getGenreAnimation() async {
+    var url_animation = Uri.parse(
+        'https://api.themoviedb.org/3/discover/movie?api_key=df33b16d1dd87d889bd119c06dd10960&with_genres=16');
+    debugPrint("[${DateTime.now()}]: Appel API : ${url_animation.toString()}");
+    var responseAPIAnimation = await http.get(url_animation);
+    if (responseAPIAnimation.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPIAnimation.statusCode}");
+      setState(() {
+        _apiResultAnimation = ApiResult.fromJson(jsonDecode(responseAPIAnimation.body));
+        _filmsAnimation = _apiResultAnimation!.results!;
+      });
+    }
+  }
 
   Future<void> getFilms() async {
     if (allloaded) {
@@ -72,7 +121,10 @@ class _AccueilState extends State<Accueil> {
         _apiResultPopular = ApiResult.fromJson(jsonDecode(responseAPIPopular.body));
         _filmsPopular = _apiResultPopular!.results!;
       });
-      getFilms();
+      await getGenreAction();
+      await getGenreRomance();
+      await getGenreAnimation();
+      await getFilms();
     }
   }
 
@@ -108,9 +160,43 @@ class _AccueilState extends State<Accueil> {
       ListView(
         controller: _scrollController,
         children: [
+          Center(child: Text("Les films populaires aujourd'hui",style: GoogleFonts.mochiyPopOne(
+      color: CupertinoColors.black,
+      fontSize: 15,
+    ))),
           Carroussel(
             films: _filmsPopular,
+            ratio: 2.0,
+            enlarge: true,
           ),
+          Center(child: Text("Action",style: GoogleFonts.mochiyPopOne(
+            color: CupertinoColors.black,
+            fontSize: 15,
+          ))),
+          Carroussel(
+            films: _filmsAction,
+            ratio: 4.0,
+          ),
+          Center(child: Text("Romance",style: GoogleFonts.mochiyPopOne(
+            color: CupertinoColors.black,
+            fontSize: 15,
+          ))),
+          Carroussel(
+            films: _filmsRomance,
+            ratio: 4.0,
+          ),
+          Center(child: Text("Animation",style: GoogleFonts.mochiyPopOne(
+            color: CupertinoColors.black,
+            fontSize: 15,
+          ))),
+          Carroussel(
+            films: _filmsAnimation,
+            ratio: 4.0,
+          ),
+          Center(child: Text("Tous les films",style: GoogleFonts.mochiyPopOne(
+            color: CupertinoColors.black,
+            fontSize: 15,
+          ))),
           Padding(
             padding: EdgeInsets.fromLTRB(5,0,5,0),
             child: GridView.builder(

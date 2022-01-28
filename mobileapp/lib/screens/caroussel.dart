@@ -8,8 +8,10 @@ import 'image.dart';
 
 class Carroussel extends StatefulWidget {
   final List<Film> films;
+  final double ratio;
+  final bool enlarge;
 
-  Carroussel({required this.films});
+  Carroussel({required this.films, required this.ratio, this.enlarge = false});
 
   @override
   _CarrousselState createState() => _CarrousselState();
@@ -41,15 +43,15 @@ class _CarrousselState extends State<Carroussel> {
     return Column(children: [
       CarouselSlider(
         options: CarouselOptions(
-          height: 200.0,
+          //height: 200.0,
           autoPlay: true,
-          autoPlayInterval: Duration(seconds: 5),
+          autoPlayInterval: Duration(seconds: 7),
           autoPlayAnimationDuration: Duration(seconds: 2),
           autoPlayCurve: Curves.fastOutSlowIn,
           pauseAutoPlayOnTouch: true,
-          enlargeCenterPage: true,
+          enlargeCenterPage: widget.enlarge,
           pageSnapping: true,
-          aspectRatio: 2.0,
+          aspectRatio: widget.ratio,
           onPageChanged: (index, reason) {
             setState(() {
               _currentIndex = index;
