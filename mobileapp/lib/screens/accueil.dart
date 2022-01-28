@@ -185,7 +185,8 @@ class _AccueilState extends State<Accueil> {
             enlarge: true,
             fraction: 0.8,
             autoPlay:true,
-            infinite:true
+            infinite:true,
+            fontSize:15.0
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

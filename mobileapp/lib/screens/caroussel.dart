@@ -13,8 +13,9 @@ class Carroussel extends StatefulWidget {
   final double fraction;
   final bool autoPlay;
   final bool infinite;
+  final double fontSize;
 
-  Carroussel({required this.films, this.ratio = 3.0, this.enlarge = false, this.fraction = 0.5, this.autoPlay = false, this.infinite = false});
+  Carroussel({required this.films, this.ratio = 3.0, this.enlarge = false, this.fraction = 0.5, this.autoPlay = false, this.infinite = false, this.fontSize = 10.0});
 
   @override
   _CarrousselState createState() => _CarrousselState();
@@ -29,7 +30,7 @@ class _CarrousselState extends State<Carroussel> {
     // TODO: implement initState
     super.initState();
     for (var film in widget.films) {
-      cardList.add(Item(film: film));
+      cardList.add(Item(film: film, fontSize: widget.fontSize));
     }
   }
 
@@ -99,8 +100,9 @@ class _CarrousselState extends State<Carroussel> {
 
 class Item extends StatelessWidget {
   final Film film;
+  final double fontSize;
 
-  Item({required this.film});
+  Item({required this.film, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +154,7 @@ class Item extends StatelessWidget {
                       child: Text(film.title!,
                           style: GoogleFonts.roboto(
                             color: CupertinoColors.black,
-                            fontSize: 15,
+                            fontSize: fontSize,
                           )),
                     ))),
           ]))
