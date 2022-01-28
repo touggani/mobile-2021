@@ -188,81 +188,100 @@ class _AccueilState extends State<Accueil> {
             infinite:true,
             fontSize:15.0
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Genre ',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: CupertinoColors.black,
-                    fontSize: 15,
-                  )),
-              Text('action',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: Colors.orange,
-                    fontSize: 15,
-                  ))
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Genre ',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: CupertinoColors.black,
+                      fontSize: 15,
+                    )),
+                Text('action',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: Colors.orange,
+                      fontSize: 15,
+                    ))
+              ],
+            ),
           ),
           Carroussel(
             films: _filmsAction,
             initial: 1
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Genre ',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: CupertinoColors.black,
-                    fontSize: 15,
-                  )),
-              Text('romance',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: Colors.orange,
-                    fontSize: 15,
-                  ))
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Genre ',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: CupertinoColors.black,
+                      fontSize: 15,
+                    )),
+                Text('romance',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: Colors.orange,
+                      fontSize: 15,
+                    ))
+              ],
+            ),
           ),
           Carroussel(
             films: _filmsRomance,
             initial: 1
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Genre ',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: CupertinoColors.black,
-                    fontSize: 15,
-                  )),
-              Text('animation',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: Colors.orange,
-                    fontSize: 15,
-                  ))
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Genre ',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: CupertinoColors.black,
+                      fontSize: 15,
+                    )),
+                Text('animation',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: Colors.orange,
+                      fontSize: 15,
+                    ))
+              ],
+            ),
           ),
           Carroussel(
             films: _filmsAnimation,
             initial: 1
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Tous ',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: Colors.orange,
-                    fontSize: 15,
-                  )),
-              Text('les films',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: CupertinoColors.black,
-                    fontSize: 15,
-                  ))
-            ],
+          const Divider(
+            height: 40,
+            thickness: 1,
+            indent: 20,
+            endIndent: 20,
+            color: Colors.orange,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Tous ',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: Colors.orange,
+                      fontSize: 15,
+                    )),
+                Text('les films',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: CupertinoColors.black,
+                      fontSize: 15,
+                    ))
+              ],
+            ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(5,0,5,0),
