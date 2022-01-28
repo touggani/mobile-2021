@@ -17,7 +17,8 @@ class _MyImageState extends State<MyImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white, body: _scrollImage(widget.film));
+    return Scaffold(
+        backgroundColor: Colors.white, body: _scrollImage(widget.film));
   }
 
   Widget _scrollImage(Film film) {
@@ -33,24 +34,24 @@ class _MyImageState extends State<MyImage> {
             floating: false,
             pinned: true,
             snap: false,
-
             flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
 
                 //titlePadding: EdgeInsetsDirectional.all(0),
-                title: Stack(
-                  children: [Text(film.title!,
+                title: Stack(children: [
+                  Text(film.title!,
                       style: GoogleFonts.roboto(
                         //color: CupertinoColors.black,
                         foreground: Paint()
                           ..style = PaintingStyle.stroke
                           ..strokeWidth = 3
                           ..color = Colors.orange,
-                      )),Text(film.title!,
+                      )),
+                  Text(film.title!,
                       style: GoogleFonts.roboto(
                         color: CupertinoColors.black,
-                      ))]
-                ),
+                      ))
+                ]),
                 background: Image.network(
                   film.backdropPath != null
                       ? 'https://image.tmdb.org/t/p/w500/' + film.backdropPath!
@@ -62,7 +63,6 @@ class _MyImageState extends State<MyImage> {
       },
       body: Column(
         children: [
-          Text(film.id.toString()),
           IconButton(
             icon: Icon(
               Icons.favorite,
@@ -74,8 +74,12 @@ class _MyImageState extends State<MyImage> {
               });
               final snackBar = SnackBar(
                 content: _isLikeOn == true
-                    ? Text('Vous avez ajouté '+ film.title.toString() + ' à vos favoris.')
-                    : Text('Vous avez retiré '+ film.title.toString() + ' de vos favoris.'),
+                    ? Text('Vous avez ajouté ' +
+                        film.title.toString() +
+                        ' à vos favoris.')
+                    : Text('Vous avez retiré ' +
+                        film.title.toString() +
+                        ' de vos favoris.'),
                 action: SnackBarAction(
                   label: 'Annuler',
                   onPressed: () {
@@ -84,14 +88,85 @@ class _MyImageState extends State<MyImage> {
                     });
                     final snackBar = SnackBar(
                         content: _isLikeOn == true
-                            ? Text(film.title.toString() + ' a été rajouté à vos favoris.')
-                            : Text(film.title.toString() + ' a été retiré de vos favoris.'));
+                            ? Text(film.title.toString() +
+                                ' a été rajouté à vos favoris.')
+                            : Text(film.title.toString() +
+                                ' a été retiré de vos favoris.'));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                 ),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
+          ),
+          Text('Overview : ' + film.overview.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
+            child: Text('Id : ' + film.id.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
+            child: Text('Adulte : ' + film.adult.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
+            child: Text('Release date : ' + film.releaseDate.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
+            child: Text('Original Title : ' + film.originalTitle.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
+            child: Text('Original Language : ' + film.originalLanguage.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
+            child: Text('Popularity : ' + film.popularity.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
+            child: Text('Vote count : ' + film.voteCount.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
+            child: Text('Vote average : ' + film.voteAverage.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
           ),
         ],
       ),
