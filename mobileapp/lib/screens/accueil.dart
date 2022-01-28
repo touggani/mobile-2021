@@ -9,6 +9,8 @@ import 'api_result.dart';
 import 'caroussel.dart';
 import 'film.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobileapp/screens/FilmDetail.dart';
+
 
 class Accueil extends StatefulWidget {
   @override
@@ -122,26 +124,33 @@ class _AccueilState extends State<Accueil> {
                               ),
                             ),
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => FilmDetail(a:"HELLLOOOOO", film: _films[index],)));
+                              /*Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => MyImage(
                                       image: _films[index].backdropPath != null
                                           ? 'https://image.tmdb.org/t/p/w500/' +
                                               _films[index].backdropPath!
                                           : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png',
-                                      id: _films[index].id)));
+                                      id: _films[index].id),));*/
                             },
                           ),
                           Container(
                               child: Column(children: [
                             Expanded(
+
                               child: Container(
                                 alignment: Alignment.topRight,
                                 child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(
+                                    padding: EdgeInsets.all(2.0),
+                                    child: IconButton(
+                                    icon: Icon(
                                       Icons.favorite_border,
                                       color: Colors.white,
-                                    )),
+
+                                    ),
+                                    onPressed: () {
+                                      print("click");
+                                    },)),
                               ),
                             ),
                             Expanded(child: Container(), flex: 8),

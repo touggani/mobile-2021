@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobileapp/screens/Profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth.instance
+     FirebaseAuth.instance
         .authStateChanges()
         .listen((User? user) {
       if (user == null) {
@@ -29,9 +30,9 @@ class MyApp extends StatelessWidget {
         print('User is signed in!');
       }
     });
-    print(globals.isLoggedIn);
+    print("is logged: ${globals.isLoggedIn}");
     if(globals.isLoggedIn){
-      return MaterialApp(
+       return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.orange,

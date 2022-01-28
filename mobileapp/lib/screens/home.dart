@@ -31,7 +31,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Bienvenue"), centerTitle: true,),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(20),
