@@ -104,70 +104,46 @@ class _MyImageState extends State<MyImage> {
                 color: CupertinoColors.black,
                 fontSize: 15,
               )),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
-            child: Text('Id : ' + film.id.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
-            child: Text('Adulte : ' + film.adult.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
-            child: Text('Release date : ' + film.releaseDate.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
-            child: Text('Original Title : ' + film.originalTitle.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
-            child: Text('Original Language : ' + film.originalLanguage.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
-            child: Text('Popularity : ' + film.popularity.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
-            child: Text('Vote count : ' + film.voteCount.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0 ,0),
-            child: Text('Vote average : ' + film.voteAverage.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-          ),
+          Text('Id : ' + film.id.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
+          Text('Adulte : ' + film.adult.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
+          Text('Release date : ' + film.releaseDate.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
+          Text('Original Title : ' + film.originalTitle.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
+          Text('Original Language : ' + film.originalLanguage.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
+          Text('Popularity : ' + film.popularity.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
+          Text('Vote count : ' + film.voteCount.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
+          Text('Vote average : ' + film.voteAverage.toString(),
+              style: GoogleFonts.roboto(
+                color: CupertinoColors.black,
+                fontSize: 15,
+              )),
         ],
       ),
     );
