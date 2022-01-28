@@ -183,7 +183,9 @@ class _AccueilState extends State<Accueil> {
             films: _filmsPopular,
             ratio: 2.0,
             enlarge: true,
-            fraction: 0.8
+            fraction: 0.8,
+            autoPlay:true,
+            infinite:true
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -11,8 +11,10 @@ class Carroussel extends StatefulWidget {
   final double ratio;
   final bool enlarge;
   final double fraction;
+  final bool autoPlay;
+  final bool infinite;
 
-  Carroussel({required this.films, this.ratio = 3.0, this.enlarge = false, this.fraction = 0.5});
+  Carroussel({required this.films, this.ratio = 3.0, this.enlarge = false, this.fraction = 0.5, this.autoPlay = false, this.infinite = false});
 
   @override
   _CarrousselState createState() => _CarrousselState();
@@ -45,7 +47,7 @@ class _CarrousselState extends State<Carroussel> {
       CarouselSlider(
         options: CarouselOptions(
           //height: 200.0,
-          autoPlay: true,
+          autoPlay: widget.autoPlay,
           autoPlayInterval: Duration(seconds: 7),
           autoPlayAnimationDuration: Duration(seconds: 2),
           autoPlayCurve: Curves.fastOutSlowIn,
@@ -55,6 +57,8 @@ class _CarrousselState extends State<Carroussel> {
           aspectRatio: widget.ratio,
           initialPage: 10,
           viewportFraction: widget.fraction,
+          enableInfiniteScroll: widget.infinite,
+          //scrollDirection: Axis.vertical,
           //enlargeStrategy: CenterPageEnlargeStrategy.height,
           onPageChanged: (index, reason) {
             setState(() {
@@ -75,7 +79,7 @@ class _CarrousselState extends State<Carroussel> {
           });
         }).toList(),
       ),
-      Row(
+      /*Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: map<Widget>(cardList, (index, url) {
           return Container(
@@ -88,7 +92,7 @@ class _CarrousselState extends State<Carroussel> {
             ),
           );
         }),
-      ),
+      ),*/
     ]);
   }
 }
