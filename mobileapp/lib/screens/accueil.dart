@@ -183,7 +183,7 @@ class _AccueilState extends State<Accueil> {
             films: _filmsPopular,
             ratio: 2.0,
             enlarge: true,
-            fraction: 0.8,
+            fraction: 1,
             autoPlay:true,
             infinite:true,
             fontSize:15.0
