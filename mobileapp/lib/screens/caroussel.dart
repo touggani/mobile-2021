@@ -74,7 +74,8 @@ class _CarrousselState extends State<Carroussel> {
               height: MediaQuery.of(context).size.height * 0.30,
               width: MediaQuery.of(context).size.width,
               child: Card(
-                color: Colors.blueAccent,
+                color: Colors.transparent,
+                elevation: 0,
                 child: card,
               ),
             );
@@ -108,7 +109,7 @@ class Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: BoxDecoration(color: Colors.transparent),
         child: Stack(alignment: AlignmentDirectional.bottomCenter, children: [
           InkWell(
             child: Container(
@@ -143,12 +144,7 @@ class Item extends StatelessWidget {
             Container(
                 width: double.infinity,
                 height: 40,
-                color: Colors.white.withOpacity(0.7),
-                //alignment: Alignment.bottomCenter,
-                /*decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
-                              ),*/
+                decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15),bottomRight: Radius.circular(15), topLeft: Radius.zero, topRight: Radius.zero),color: Colors.white.withOpacity(0.7),),
                 child: Padding(
                     padding: EdgeInsets.only(right: 8.0, left: 8.0),
                     child: Center(
