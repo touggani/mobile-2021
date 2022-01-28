@@ -161,7 +161,7 @@ class _AccueilState extends State<Accueil> {
         controller: _scrollController,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0,10,0,0),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
