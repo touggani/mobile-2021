@@ -206,6 +206,7 @@ class _AccueilState extends State<Accueil> {
           ),
           Carroussel(
             films: _filmsAction,
+            initial: 1
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -225,6 +226,7 @@ class _AccueilState extends State<Accueil> {
           ),
           Carroussel(
             films: _filmsRomance,
+            initial: 1
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -244,6 +246,7 @@ class _AccueilState extends State<Accueil> {
           ),
           Carroussel(
             films: _filmsAnimation,
+            initial: 1
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

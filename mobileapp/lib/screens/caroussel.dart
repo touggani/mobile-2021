@@ -14,15 +14,16 @@ class Carroussel extends StatefulWidget {
   final bool autoPlay;
   final bool infinite;
   final double fontSize;
+  final int initial;
 
-  Carroussel({required this.films, this.ratio = 3.0, this.enlarge = false, this.fraction = 0.5, this.autoPlay = false, this.infinite = false, this.fontSize = 10.0});
+  Carroussel({required this.films, this.ratio = 3.0, this.enlarge = false, this.fraction = 0.5, this.autoPlay = false, this.infinite = false, this.fontSize = 10.0, this.initial = 10});
 
   @override
   _CarrousselState createState() => _CarrousselState();
 }
 
 class _CarrousselState extends State<Carroussel> {
-  int _currentIndex = 0;
+  //int _currentIndex = 0;
   List cardList = [];
 
   @override
@@ -56,16 +57,16 @@ class _CarrousselState extends State<Carroussel> {
           enlargeCenterPage: widget.enlarge,
           pageSnapping: true,
           aspectRatio: widget.ratio,
-          initialPage: 10,
+          initialPage: widget.initial,
           viewportFraction: widget.fraction,
           enableInfiniteScroll: widget.infinite,
           //scrollDirection: Axis.vertical,
           //enlargeStrategy: CenterPageEnlargeStrategy.height,
-          onPageChanged: (index, reason) {
+          /*onPageChanged: (index, reason) {
             setState(() {
               _currentIndex = index;
             });
-          },
+          },*/
         ),
         items: cardList.map((card) {
           return Builder(builder: (BuildContext context) {
