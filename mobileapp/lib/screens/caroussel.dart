@@ -129,7 +129,7 @@ class Item extends StatelessWidget {
           ),
           Container(
               child: Column(children: [
-            Expanded(
+            /*Expanded(
               child: Container(
                 alignment: Alignment.topRight,
                 child: Padding(
@@ -139,7 +139,7 @@ class Item extends StatelessWidget {
                       color: Colors.orange,
                     )),
               ),
-            ),
+            ),*/
             Expanded(child: Container(), flex: 8),
             Container(
                 width: double.infinity,

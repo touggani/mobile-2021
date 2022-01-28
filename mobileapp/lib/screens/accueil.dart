@@ -325,7 +325,7 @@ class _AccueilState extends State<Accueil> {
                             ),
                             Container(
                                 child: Column(children: [
-                              Expanded(
+                              /*Expanded(
                                 child: Container(
                                   alignment: Alignment.topRight,
                                   child: Padding(
@@ -335,7 +335,7 @@ class _AccueilState extends State<Accueil> {
                                         color: Colors.orange,
                                       )),
                                 ),
-                              ),
+                              ),*/
                               Expanded(child: Container(), flex: 8),
                               Container(
                                   width: double.infinity,
