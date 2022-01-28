@@ -25,12 +25,12 @@ class _AccueilState extends State<Accueil> {
   ApiResult? _apiResultPopular;
   ApiResult? _apiResultAction;
   ApiResult? _apiResultRomance;
-  ApiResult? _apiResultAnimation;
+  ApiResult? _apiResultHorreur;
   List<Film> _films = [];
   List<Film> _filmsPopular = [];
   List<Film> _filmsAction = [];
   List<Film> _filmsRomance = [];
-  List<Film> _filmsAnimation = [];
+  List<Film> _filmsHorreur = [];
 
   Future<void> getGenreAction() async {
     var url_action = Uri.parse(
@@ -62,17 +62,17 @@ class _AccueilState extends State<Accueil> {
     }
   }
 
-  Future<void> getGenreAnimation() async {
-    var url_animation = Uri.parse(
-        'https://api.themoviedb.org/3/discover/movie?api_key=df33b16d1dd87d889bd119c06dd10960&with_genres=16');
-    debugPrint("[${DateTime.now()}]: Appel API : ${url_animation.toString()}");
-    var responseAPIAnimation = await http.get(url_animation);
-    if (responseAPIAnimation.statusCode == 200) {
+  Future<void> getGenreHorreur() async {
+    var url_horreur = Uri.parse(
+        'https://api.themoviedb.org/3/discover/movie?api_key=df33b16d1dd87d889bd119c06dd10960&with_genres=27');
+    debugPrint("[${DateTime.now()}]: Appel API : ${url_horreur.toString()}");
+    var responseAPIHorreur = await http.get(url_horreur);
+    if (responseAPIHorreur.statusCode == 200) {
       debugPrint(
-          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPIAnimation.statusCode}");
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPIHorreur.statusCode}");
       setState(() {
-        _apiResultAnimation = ApiResult.fromJson(jsonDecode(responseAPIAnimation.body));
-        _filmsAnimation = _apiResultAnimation!.results!;
+        _apiResultHorreur = ApiResult.fromJson(jsonDecode(responseAPIHorreur.body));
+        _filmsHorreur = _apiResultHorreur!.results!;
       });
     }
   }
@@ -123,7 +123,7 @@ class _AccueilState extends State<Accueil> {
       });
       await getGenreAction();
       await getGenreRomance();
-      await getGenreAnimation();
+      await getGenreHorreur();
       await getFilms();
     }
   }
@@ -245,7 +245,7 @@ class _AccueilState extends State<Accueil> {
                       color: CupertinoColors.black,
                       fontSize: 15,
                     )),
-                Text('animation',
+                Text('horreur',
                     style: GoogleFonts.mochiyPopOne(
                       color: Colors.orange,
                       fontSize: 15,
@@ -254,7 +254,7 @@ class _AccueilState extends State<Accueil> {
             ),
           ),
           Carroussel(
-            films: _filmsAnimation,
+            films: _filmsHorreur,
             initial: 1
           ),
           const Divider(
