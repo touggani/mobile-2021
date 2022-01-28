@@ -26,20 +26,18 @@ class _MyImageState extends State<MyImage> {
   List<Widget> _widgetList(Film film) {
     List<Widget> myList = [];
     film.toJson().forEach((key, value) {
-      myList.add(
-          ListTile(
-            leading: Text(key.toString(),
-                style: GoogleFonts.roboto(
-                  color: Colors.orange,
-                  //fontSize: 15,
-                )),
-            title: Text(value.toString(),
-                style: GoogleFonts.roboto(
-                  color: CupertinoColors.black,
-                  //fontSize: 15,
-                )),
-          )
-      );
+      myList.add(ListTile(
+        leading: Text(key.toString(),
+            style: GoogleFonts.roboto(
+              color: Colors.orange,
+              //fontSize: 15,
+            )),
+        title: Text(value.toString(),
+            style: GoogleFonts.roboto(
+              color: CupertinoColors.black,
+              //fontSize: 15,
+            )),
+      ));
     });
     return myList;
   }
@@ -122,12 +120,9 @@ class _MyImageState extends State<MyImage> {
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
           ),
-          Expanded(
-          child: ListView(children: _widgetList(film)))
+          Expanded(child: ListView(children: _widgetList(film)))
         ],
       ),
     );
   }
-
-
 }

@@ -47,21 +47,21 @@ class _navigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading:Lottie.asset("assets/camera-moving.json"),
+        leading: Lottie.asset("assets/camera-moving.json"),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('Cinema',
-              style: GoogleFonts.mochiyPopOne(
-                color: CupertinoColors.black,
-                fontSize: 25,
-              )),
+                style: GoogleFonts.mochiyPopOne(
+                  color: CupertinoColors.black,
+                  fontSize: 25,
+                )),
             Text('\'Tic',
-              style: GoogleFonts.mochiyPopOne(
-                color: Colors.orange,
-                fontSize: 25,
-              ))
+                style: GoogleFonts.mochiyPopOne(
+                  color: Colors.orange,
+                  fontSize: 25,
+                ))
           ],
         ),
         centerTitle: true,

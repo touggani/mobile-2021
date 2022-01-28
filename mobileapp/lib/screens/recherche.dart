@@ -32,9 +32,6 @@ class _RechercheState extends State<Recherche> {
 
   bool _isSearchEmpty = true;
 
-  // String query = '';
-  // Timer? debouncer;
-
   void filterSearchResults() {
     setState(() {
       init = false;
@@ -46,30 +43,13 @@ class _RechercheState extends State<Recherche> {
     getSearchFilms();
   }
 
-  // @override
-  // void dispose(){
-  //   debouncer?.cancel();
-  //   super.dispose();
-  // }
-  //
-  // void debounce(
-  //     VoidCallback callback, {
-  //       Duration duration = const Duration(milliseconds: 1000),
-  //     }){
-  //
-  //   if(debouncer != null){
-  //     debouncer!.cancel();
-  //   }
-  //   debouncer = Timer(duration, callback);
-  // }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent &&
+              _scrollController.position.maxScrollExtent &&
           !loading) {
         if (_films.isNotEmpty) getSearchFilms();
         print("Refresh");
@@ -88,14 +68,15 @@ class _RechercheState extends State<Recherche> {
   Widget build(BuildContext context) {
     return Center(
         child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row ( children: [Expanded(
+      Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(children: [
+            Expanded(
               child: TextField(
                 //controller: editingController,
                 onChanged: (value) {
                   setState(() {
-                  _query = value;
+                    _query = value;
                   });
                 },
                 decoration: InputDecoration(
@@ -105,88 +86,89 @@ class _RechercheState extends State<Recherche> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25.0)))),
               ),
-            ),ElevatedButton(
+            ),
+            ElevatedButton(
               onPressed: () {
                 filterSearchResults();
               },
-              style : ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(25.0))),),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
+              ),
               child: const Text('Rechercher'),
             ),
-              
-            ])
-          ),
-          Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-              child: Row(children: [
-                ActionChip(
-                  elevation: 8.0,
-                  padding: EdgeInsets.all(2.0),
-                  avatar: CircleAvatar(
-                    backgroundColor: Colors.blueAccent,
-                    child: Icon(
-                      _isAdultOn
-                          ? Icons.bakery_dining_rounded
-                          : Icons.bakery_dining_outlined,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                  label: Text('+18'),
-                  onPressed: () {
-                    setState(() {
-                      _isAdultOn = !_isAdultOn;
-                    });
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('+18')));
-                  },
-                  backgroundColor: Colors.grey[200],
-                  shape: StadiumBorder(
-                      side: BorderSide(
-                        width: 1,
-                        color: Colors.redAccent,
-                      )),
+          ])),
+      Padding(
+          padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+          child: Row(children: [
+            ActionChip(
+              elevation: 8.0,
+              padding: EdgeInsets.all(2.0),
+              avatar: CircleAvatar(
+                backgroundColor: Colors.blueAccent,
+                child: Icon(
+                  _isAdultOn
+                      ? Icons.bakery_dining_rounded
+                      : Icons.bakery_dining_outlined,
+                  color: Colors.white,
+                  size: 20,
                 ),
-              ])),
-          !init
-              ? Expanded(
-              child: Lottie.asset("assets/the-panda-eats-popcorn.json"))
-              : Expanded(
-            child: Stack( children:[ListView.separated(
-              itemCount: _films.length,
-              controller: _scrollController,
-              separatorBuilder: (BuildContext context, int index) =>
-              const Divider(),
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_films[index].title!,
-                      style: GoogleFonts.roboto(
-                        color: CupertinoColors.black,
-                        fontSize: 10,
-                      )),
-                  leading: Image.network(_films[index]
-                      .posterPath !=
-                      null
-                      ? 'https://image.tmdb.org/t/p/w500' +
-                      _films[index].posterPath!
-                      : 'https://i.imgur.com/R7mqXKL.png'),
-    onTap: () {
-    Navigator.of(context).push(MaterialPageRoute(
-    builder: (context) => MyImage(
-    film: _films[index])));
-    }
-                    // action
-                );
+              ),
+              label: Text('+18'),
+              onPressed: () {
+                setState(() {
+                  _isAdultOn = !_isAdultOn;
+                });
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text('+18')));
               },
+              backgroundColor: Colors.grey[200],
+              shape: StadiumBorder(
+                  side: BorderSide(
+                width: 1,
+                color: Colors.redAccent,
+              )),
             ),
+          ])),
+      !init
+          ? Expanded(child: Lottie.asset("assets/the-panda-eats-popcorn.json"))
+          : Expanded(
+              child: Stack(children: [
+              ListView.separated(
+                itemCount: _films.length,
+                controller: _scrollController,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      title: Text(_films[index].title!,
+                          style: GoogleFonts.roboto(
+                            color: CupertinoColors.black,
+                            fontSize: 10,
+                          )),
+                      leading: Image.network(_films[index].posterPath != null
+                          ? 'https://image.tmdb.org/t/p/w500' +
+                              _films[index].posterPath!
+                          : 'https://i.imgur.com/R7mqXKL.png'),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                MyImage(film: _films[index])));
+                      }
+                      // action
+                      );
+                },
+              ),
               if (loading) ...[
                 Align(
                   alignment: FractionalOffset.bottomCenter,
-                  child: Container(height: 80,child: Center(child: CircularProgressIndicator())),
+                  child: Container(
+                      height: 80,
+                      child: Center(child: CircularProgressIndicator())),
                 ),
-          ]
-        ])
-          )
-        ]));
+              ]
+            ]))
+    ]));
   }
 
   Future<void> getSearchFilms() async {
@@ -206,10 +188,14 @@ class _RechercheState extends State<Recherche> {
     }
     var url = Uri.parse(
         'https://api.themoviedb.org/3/search/multi?api_key=df33b16d1dd87d889bd119c06dd10960' +
-            page + adult + query);
-    debugPrint(url.toString());
+            page +
+            adult +
+            query);
+    debugPrint("[${DateTime.now()}]: Appel API : ${url.toString()}");
     var responseAPI = await http.get(url);
     if (responseAPI.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI.statusCode}");
       setState(() {
         _apiResult = ApiResult.fromJson(jsonDecode(responseAPI.body));
         _films = _films + _apiResult!.results!;

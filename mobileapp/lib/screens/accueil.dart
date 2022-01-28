@@ -44,8 +44,10 @@ class _AccueilState extends State<Accueil> {
     var url = Uri.parse(
         'https://api.themoviedb.org/3/discover/movie?api_key=df33b16d1dd87d889bd119c06dd10960' +
             page);
+    debugPrint("[${DateTime.now()}]: Appel API : ${url.toString()}");
     var responseAPI = await http.get(url);
     if (responseAPI.statusCode == 200) {
+      debugPrint("[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI.statusCode}");
       setState(() {
         _apiResult = ApiResult.fromJson(jsonDecode(responseAPI.body));
         _films = _films + _apiResult!.results!;
@@ -55,15 +57,17 @@ class _AccueilState extends State<Accueil> {
           allloaded = true;
         }
       });
-      debugPrint(_apiResult.toString());
     }
   }
 
   Future<void> getFilmPopular() async {
     var url_popular = Uri.parse(
         'https://api.themoviedb.org/3/movie/popular?api_key=df33b16d1dd87d889bd119c06dd10960&page=1');
+    debugPrint("[${DateTime.now()}]: Appel API : ${url_popular.toString()}");
     var responseAPIPopular = await http.get(url_popular);
     if (responseAPIPopular.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPIPopular.statusCode}");
       setState(() {
         _apiResultPopular = ApiResult.fromJson(jsonDecode(responseAPIPopular.body));
         _filmsPopular = _apiResultPopular!.results!;

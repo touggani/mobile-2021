@@ -8,20 +8,22 @@ import 'image.dart';
 
 class Carroussel extends StatefulWidget {
   final List<Film> films;
+
   Carroussel({required this.films});
+
   @override
   _CarrousselState createState() => _CarrousselState();
 }
 
 class _CarrousselState extends State<Carroussel> {
-  int _currentIndex=0;
-  List cardList =[];
+  int _currentIndex = 0;
+  List cardList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    for (var film in widget.films){
+    for (var film in widget.films) {
       cardList.add(Item(film: film));
     }
   }
@@ -33,6 +35,7 @@ class _CarrousselState extends State<Carroussel> {
     }
     return result;
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -53,20 +56,19 @@ class _CarrousselState extends State<Carroussel> {
             });
           },
         ),
-        items: cardList.map((card){
-          return Builder(
-              builder:(BuildContext context){
-                return Container(
-                  height: MediaQuery.of(context).size.height*0.30,
-                  width: MediaQuery.of(context).size.width,
-                  child: Card(
-                    color: Colors.blueAccent,
-                    child: card,
-                  ),
-                );
-              }
-          );
-        }).toList(),),
+        items: cardList.map((card) {
+          return Builder(builder: (BuildContext context) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.30,
+              width: MediaQuery.of(context).size.width,
+              child: Card(
+                color: Colors.blueAccent,
+                child: card,
+              ),
+            );
+          });
+        }).toList(),
+      ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: map<Widget>(cardList, (index, url) {
@@ -87,67 +89,63 @@ class _CarrousselState extends State<Carroussel> {
 
 class Item extends StatelessWidget {
   final Film film;
+
   Item({required this.film});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-
-              color: Colors.white
-        ),
-        child: Stack(
-            alignment: AlignmentDirectional.bottomCenter,
-            children: [
-              InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius:
-                    BorderRadius.all(Radius.circular(15)),
-                    image: DecorationImage(
-                      image: NetworkImage('https://image.tmdb.org/t/p/w500/' + film.backdropPath!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+        decoration: BoxDecoration(color: Colors.white),
+        child: Stack(alignment: AlignmentDirectional.bottomCenter, children: [
+          InkWell(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://image.tmdb.org/t/p/w500/' + film.backdropPath!),
+                  fit: BoxFit.cover,
                 ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          MyImage(film: film)
-                  ));
-                },
               ),
-              Container(
-                  child: Column(children: [
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child: Padding(padding: EdgeInsets.all(8.0),child: Icon(
-                          Icons.favorite_border,
-                          color: Colors.white,
-                        )),),
-                    ),
-                    Expanded(child: Container(), flex: 8),
-                    Container(
-                        width: double.infinity,
-                        height: 40,
-                        color: Colors.white.withOpacity(0.7),
-                        //alignment: Alignment.bottomCenter,
-                        /*decoration: BoxDecoration(
+            ),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MyImage(film: film)));
+            },
+          ),
+          Container(
+              child: Column(children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.topRight,
+                child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.favorite_border,
+                      color: Colors.white,
+                    )),
+              ),
+            ),
+            Expanded(child: Container(), flex: 8),
+            Container(
+                width: double.infinity,
+                height: 40,
+                color: Colors.white.withOpacity(0.7),
+                //alignment: Alignment.bottomCenter,
+                /*decoration: BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15)),
                               ),*/
-                        child: Padding(
-                            padding:
-                            EdgeInsets.only(right: 8.0, left: 8.0),
-                            child: Center(
-                              child: Text(film.title!,
-                                  style: GoogleFonts.roboto(
-                                    color: CupertinoColors.black,
-                                    fontSize: 15,
-                                  )),
-                            ))),
-                  ]))
-            ])
-    );
+                child: Padding(
+                    padding: EdgeInsets.only(right: 8.0, left: 8.0),
+                    child: Center(
+                      child: Text(film.title!,
+                          style: GoogleFonts.roboto(
+                            color: CupertinoColors.black,
+                            fontSize: 15,
+                          )),
+                    ))),
+          ]))
+        ]));
   }
 }
