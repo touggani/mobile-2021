@@ -135,11 +135,10 @@ class _AccueilState extends State<Accueil> {
     super.initState();
     getFilmPopular();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels + MediaQuery.of(context).size.height * 0.50 >=
+      if (_scrollController.position.pixels + MediaQuery.of(context).size.height * 0.30 >=
               _scrollController.position.maxScrollExtent &&
           !loading) {
         getFilms();
-        print("Refresh");
       }
     });
   }
