@@ -162,6 +162,18 @@ class _MyImageState extends State<MyImage> {
                     )),
               ),
               ListTile(
+                leading: Text('Title',
+                    style: GoogleFonts.roboto(
+                      color: Colors.orange,
+                      //fontSize: 15,
+                    )),
+                title: Text(film.title.toString(),
+                    style: GoogleFonts.roboto(
+                      color: CupertinoColors.black,
+                      //fontSize: 15,
+                    )),
+              ),
+              ListTile(
                 leading: Text('Original Language',
                     style: GoogleFonts.roboto(
                       color: Colors.orange,
@@ -204,6 +216,54 @@ class _MyImageState extends State<MyImage> {
                       //fontSize: 15,
                     )),
                 title: Text(film.voteAverage.toString(),
+                    style: GoogleFonts.roboto(
+                      color: CupertinoColors.black,
+                      //fontSize: 15,
+                    )),
+              ),
+              ListTile(
+                leading: Text('Genre ID',
+                    style: GoogleFonts.roboto(
+                      color: Colors.orange,
+                      //fontSize: 15,
+                    )),
+                title: Text(film.genreIds.toString(),
+                    style: GoogleFonts.roboto(
+                      color: CupertinoColors.black,
+                      //fontSize: 15,
+                    )),
+              ),
+              ListTile(
+                leading: Text('Poster Path',
+                    style: GoogleFonts.roboto(
+                      color: Colors.orange,
+                      //fontSize: 15,
+                    )),
+                title: Text(film.posterPath.toString(),
+                    style: GoogleFonts.roboto(
+                      color: CupertinoColors.black,
+                      //fontSize: 15,
+                    )),
+              ),
+              ListTile(
+                leading: Text('Backdrop Path',
+                    style: GoogleFonts.roboto(
+                      color: Colors.orange,
+                      //fontSize: 15,
+                    )),
+                title: Text(film.backdropPath.toString(),
+                    style: GoogleFonts.roboto(
+                      color: CupertinoColors.black,
+                      //fontSize: 15,
+                    )),
+              ),
+              ListTile(
+                leading: Text('Video',
+                    style: GoogleFonts.roboto(
+                      color: Colors.orange,
+                      //fontSize: 15,
+                    )),
+                title: Text(film.video.toString(),
                     style: GoogleFonts.roboto(
                       color: CupertinoColors.black,
                       //fontSize: 15,
