@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,6 +21,27 @@ class _MyImageState extends State<MyImage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white, body: _scrollImage(widget.film));
+  }
+
+  List<Widget> _widgetList(Film film) {
+    List<Widget> myList = [];
+    film.toJson().forEach((key, value) {
+      myList.add(
+          ListTile(
+            leading: Text(key.toString(),
+                style: GoogleFonts.roboto(
+                  color: Colors.orange,
+                  //fontSize: 15,
+                )),
+            title: Text(value.toString(),
+                style: GoogleFonts.roboto(
+                  color: CupertinoColors.black,
+                  //fontSize: 15,
+                )),
+          )
+      );
+    });
+    return myList;
   }
 
   Widget _scrollImage(Film film) {
@@ -62,7 +85,7 @@ class _MyImageState extends State<MyImage> {
         ];
       },
       body: Column(
-        children: <Widget>[
+        children: [
           IconButton(
             icon: Icon(
               Icons.favorite,
@@ -100,179 +123,11 @@ class _MyImageState extends State<MyImage> {
             },
           ),
           Expanded(
-            child: ListView(children: <Widget>[
-              ListTile(
-                leading: Text('Overview',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.overview.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Id',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.id.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Adulte',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.adult.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Release Date',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.releaseDate.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Original Title',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.originalTitle.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Title',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.title.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Original Language',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.originalLanguage.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Popularity',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.popularity.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Vote Count',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.voteCount.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Vote Average',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.voteAverage.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Genre ID',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.genreIds.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Poster Path',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.posterPath.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Backdrop Path',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.backdropPath.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-              ListTile(
-                leading: Text('Video',
-                    style: GoogleFonts.roboto(
-                      color: Colors.orange,
-                      //fontSize: 15,
-                    )),
-                title: Text(film.video.toString(),
-                    style: GoogleFonts.roboto(
-                      color: CupertinoColors.black,
-                      //fontSize: 15,
-                    )),
-              ),
-            ]),
-          )
+          child: ListView(children: _widgetList(film)))
         ],
       ),
     );
   }
+
+
 }
