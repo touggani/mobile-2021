@@ -124,7 +124,7 @@ class Item extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: Icon(
                       Icons.favorite_border,
-                      color: Colors.white,
+                      color: Colors.orange,
                     )),
               ),
             ),

@@ -160,21 +160,24 @@ class _AccueilState extends State<Accueil> {
       ListView(
         controller: _scrollController,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Les films populaires ',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: CupertinoColors.black,
-                    fontSize: 15,
-                  )),
-              Text('aujourd\'hui',
-                  style: GoogleFonts.mochiyPopOne(
-                    color: Colors.orange,
-                    fontSize: 15,
-                  ))
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0,10,0,0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Les films populaires ',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: CupertinoColors.black,
+                      fontSize: 15,
+                    )),
+                Text('aujourd\'hui',
+                    style: GoogleFonts.mochiyPopOne(
+                      color: Colors.orange,
+                      fontSize: 15,
+                    ))
+              ],
+            ),
           ),
           Carroussel(
             films: _filmsPopular,
@@ -306,7 +309,7 @@ class _AccueilState extends State<Accueil> {
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
                                         Icons.favorite_border,
-                                        color: Colors.white,
+                                        color: Colors.orange,
                                       )),
                                 ),
                               ),
