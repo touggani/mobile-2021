@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'genre.dart';
 
 class MultiSelect extends StatefulWidget {
-  final Genres items;
+  final ListGenre? items;
   const MultiSelect({Key? key, required this.items}) : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class _MultiSelectState extends State<MultiSelect> {
       title: const Text('Select Topics'),
       content: SingleChildScrollView(
         child: ListBody(
-          children: widget.items
+          children: widget.items!.genres!
               .map((item) => CheckboxListTile(
             value: _selectedItems.contains(item),
             title: Text(item.name.toString()),

@@ -42,7 +42,7 @@ class _RechercheState extends State<Recherche> {
     // a list of selectable items
     // these items can be hard-coded or dynamically fetched from a database/API
 
-    final List<Genres>? results = await showDialog(
+    final List<Genres> results = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return MultiSelect(items: _genres);
