@@ -29,15 +29,18 @@ class _RechercheState extends State<Recherche> {
   bool loading = false;
   bool allloaded = false;
   bool init = false;
+  var _genreQuery = '';
   var _query = '';
   bool genre_ok = false;
   bool recherce_par_genre = false;
   ApiResult? _apiResult;
   List<Film> _films = [];
+
   ListGenre? _genres;
   bool _isSearchEmpty = true;
 
-  List<Genres> _selectedItems = [];
+  List<Genres> selectedItems = [];
+
   void _showMultiSelect() async {
     // a list of selectable items
     // these items can be hard-coded or dynamically fetched from a database/API
@@ -52,7 +55,7 @@ class _RechercheState extends State<Recherche> {
     // Update UI
     if (results != null) {
       setState(() {
-        _selectedItems = results;
+        selectedItems = results;
       });
     }
   }
@@ -65,8 +68,15 @@ class _RechercheState extends State<Recherche> {
       _films = [];
       _apiResult = null;
     });
-    getSearchFilms();
+    if (recherce_par_genre) {
+      getSearchGenre();
+    } else {
+      getSearchFilms();
+    }
   }
+
+  // get search by genre
+
 
   @override
   void initState() {
@@ -77,7 +87,12 @@ class _RechercheState extends State<Recherche> {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent &&
           !loading) {
-        if (_films.isNotEmpty) getSearchFilms();
+        if (_films.isNotEmpty)
+          if (recherce_par_genre) {
+            getSearchGenre();
+          } else {
+            getSearchFilms();
+          }
         print("Refresh");
       }
     });
@@ -89,7 +104,6 @@ class _RechercheState extends State<Recherche> {
     super.dispose();
     _scrollController.dispose();
   }
-
 
 
   @override
@@ -128,7 +142,7 @@ class _RechercheState extends State<Recherche> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: !recherce_par_genre? TextField(
+            child: !recherce_par_genre ? TextField(
               //controller: editingController,
               onChanged: (value) {
                 setState(() {
@@ -141,12 +155,12 @@ class _RechercheState extends State<Recherche> {
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-            ):Column(
+            ) : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // use this button to open the multi-select dialog
                 ElevatedButton(
-                  child: const Text('Select Your Favorite Topics'),
+                  child: const Text('Selectionner un genre'),
                   onPressed: _showMultiSelect,
                 ),
 
@@ -186,7 +200,10 @@ class _RechercheState extends State<Recherche> {
                     child: const Text('Rechercher par texte'),
                   )),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.025,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.025,
               ),
               Expanded(
                 child: ElevatedButton(
@@ -242,15 +259,17 @@ class _RechercheState extends State<Recherche> {
           if(recherce_par_genre)
           // display selected items
             Wrap(
-              children: _selectedItems
-                  .map((e) => Chip(
-                label: Text(e.name.toString()),
-              ))
+              children: selectedItems
+                  .map((e) =>
+                  Chip(
+                    label: Text(e.name.toString()),
+                  ))
                   .toList(),
             ),
 
-            !init
-              ? Expanded(child: Lottie.asset("assets/the-panda-eats-popcorn.json"))
+          !init
+              ? Expanded(
+              child: Lottie.asset("assets/the-panda-eats-popcorn.json"))
               : Expanded(
               child: Stack(children: [
                 ListView.separated(
@@ -314,7 +333,8 @@ class _RechercheState extends State<Recherche> {
     var responseAPI = await http.get(url);
     if (responseAPI.statusCode == 200) {
       debugPrint(
-          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI.statusCode}");
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI
+              .statusCode}");
       setState(() {
         _apiResult = ApiResult.fromJson(jsonDecode(responseAPI.body));
         _films = _films + _apiResult!.results!;
@@ -334,10 +354,60 @@ class _RechercheState extends State<Recherche> {
     var responseAPI = await http.get(url);
     if (responseAPI.statusCode == 200) {
       debugPrint(
-          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI.statusCode}");
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI
+              .statusCode}");
       setState(() {
         _genres = ListGenre.fromJson(jsonDecode(responseAPI.body));
         genre_ok = true;
+      });
+    }
+  }
+
+  Future<void> getSearchGenre() async {
+    if (allloaded) {
+      return;
+    }
+    setState(() {
+      loading = true;
+    });
+    var page = '&page=';
+    var adult = '&include_adult=' + _isAdultOn.toString();
+
+    for (var i = 0; i < selectedItems.length; i++) {
+      if(_genreQuery == ''){
+        _genreQuery = selectedItems[i].id.toString();
+      }
+      else{
+        _genreQuery = _genreQuery + ',' + selectedItems[i].id.toString();
+      }
+    }
+
+    var genres = '&with_genres=' + _genreQuery;
+
+    if (_apiResult?.page != null) {
+      page = page + (_apiResult!.page! + 1).toString();
+    } else {
+      page = page + '1';
+    }
+    var url = Uri.parse(
+        'https://api.themoviedb.org/3/discover/movie?api_key=df33b16d1dd87d889bd119c06dd10960' +
+            page +
+            adult +
+            genres);
+    debugPrint("[${DateTime.now()}]: Appel API : ${url.toString()}");
+    var responseAPI = await http.get(url);
+    if (responseAPI.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI
+              .statusCode}");
+      setState(() {
+        _apiResult = ApiResult.fromJson(jsonDecode(responseAPI.body));
+         _films = _films  + _apiResult!.results!;
+        loading = false;
+        if (!init) init = true;
+        if (_apiResult!.page == _apiResult!.totalPages) {
+          allloaded = true;
+        }
       });
     }
   }
