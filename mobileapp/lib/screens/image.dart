@@ -21,7 +21,7 @@ class MyImage extends StatefulWidget {
 String durationToString(int minutes) {
   var d = Duration(minutes: minutes);
   List<String> parts = d.toString().split(':');
-  return '${parts[0].padLeft(2, '0')}:${parts[1].padLeft(2, '0')}';
+  return '${parts[0].padLeft(2, '0')}h${parts[1].padLeft(2, '0')}min';
 }
 
 class _MyImageState extends State<MyImage> {
@@ -131,19 +131,78 @@ class _MyImageState extends State<MyImage> {
             floating: false,
             pinned: true,
             snap: false,
+
             flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
 
-                //titlePadding: EdgeInsetsDirectional.all(0),
+                titlePadding: EdgeInsetsDirectional.all(0),
                 title: Stack(children: [
-                  /* Text(film.title!,
-                      style: GoogleFonts.roboto(
-                        //color: CupertinoColors.black,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = 3
-                          ..color = Colors.orange,
-                      )),*/
+                    Container(
+
+                    color: Colors.white.withOpacity(0.7),
+
+
+                  child : Row(
+
+                    children: <Widget>[
+
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 52.0, top: 5.0, bottom: 5.0),
+                          child: Text(
+                              film.title!,
+                              textAlign: TextAlign.center,
+
+                              style: GoogleFonts.mochiyPopOne(
+                                color: CupertinoColors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w900,
+                              )),
+                        ),
+                      ),
+
+                      IconButton(
+                        padding: const EdgeInsets.only(left: 0, top: 5.0, right: 20.0,bottom: 5.0),
+                        icon: Icon(
+                          _isLikeOn == true ? Icons.favorite :
+                          Icons.favorite_border,
+                          color: Colors.orange,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isLikeOn = !_isLikeOn;
+                          });
+                          final snackBar = SnackBar(
+                            content: _isLikeOn == true
+                                ? Text('Vous avez ajouté ' +
+                                film.title.toString() +
+                                ' à vos favoris.')
+                                : Text('Vous avez retiré ' +
+                                film.title.toString() +
+                                ' de vos favoris.'),
+                            action: SnackBarAction(
+                              label: 'Annuler',
+                              onPressed: () {
+                                setState(() {
+                                  _isLikeOn = !_isLikeOn;
+                                });
+                                final snackBar = SnackBar(
+                                    content: _isLikeOn == true
+                                        ? Text(film.title.toString() +
+                                        ' a été rajouté à vos favoris.')
+                                        : Text(film.title.toString() +
+                                        ' a été retiré de vos favoris.'));
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              },
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        },
+                      ),
+                    ],
+                  ),
+
+                    ),
                 ]),
                 background: Image.network(
                   film.backdropPath != null
@@ -155,47 +214,206 @@ class _MyImageState extends State<MyImage> {
         ];
       },
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          IconButton(
-            icon: Icon(
-              _isLikeOn == true ? Icons.favorite : Icons.favorite_border,
-              color: Colors.orange,
-            ),
-            onPressed: () {
-              setState(() {
-                _isLikeOn = !_isLikeOn;
-              });
-              _getAddDelete(film);
-              final snackBar = SnackBar(
-                content: _isLikeOn == true
-                    ? Text('Vous avez ajouté ' +
-                        film.title.toString() +
-                        ' à vos favoris.')
-                    : Text('Vous avez retiré ' +
-                        film.title.toString() +
-                        ' de vos favoris.'),
-                action: SnackBarAction(
-                  label: 'Annuler',
-                  onPressed: () {
-                    setState(() {
-                      _isLikeOn = !_isLikeOn;
-                    });
-                    _getAddDelete(film);
-                    final snackBar = SnackBar(
-                        content: _isLikeOn == true
-                            ? Text(film.title.toString() +
-                                ' a été rajouté à vos favoris.')
-                            : Text(film.title.toString() +
-                                ' a été retiré de vos favoris.'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  },
-                ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-          ),
-          Expanded(child: ListView(children: _widgetList(_film))),
-          //Text(name)
+
+          //Expanded(child: ListView(children: _widgetList(_film))),
+          Expanded(child:
+
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+ Row( mainAxisAlignment: MainAxisAlignment.start,
+   crossAxisAlignment: CrossAxisAlignment.start,
+   mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30, top: 20.0),
+                      child: Text("Durée : ",
+                          textAlign: TextAlign.left, // has impact
+                          style: GoogleFonts.roboto(
+
+                            color: CupertinoColors.black,
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(durationToString(_film.runtime!) ,
+                            textAlign: TextAlign.left, // has impact
+                            style: GoogleFonts.roboto(
+                              color: CupertinoColors.black,
+
+                            ))
+                    ),
+                  ),
+                ],
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 20.0),
+                      child: Text("Genre : ",
+                          textAlign: TextAlign.left, // has impact
+                          style: GoogleFonts.roboto(
+
+                            color: CupertinoColors.black,
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(_film.genres.toString() ,
+                            textAlign: TextAlign.left, // has impact
+                            style: GoogleFonts.roboto(
+                              color: CupertinoColors.black,
+                            ))
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 20.0),
+                      child: Text("Date de sortie : ",
+                          textAlign: TextAlign.left, // has impact
+                          style: GoogleFonts.roboto(
+
+                            color: CupertinoColors.black,
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(_film.releaseDate! ,
+                            textAlign: TextAlign.left, // has impact
+                            style: GoogleFonts.roboto(
+                              color: CupertinoColors.black,
+
+                            ))
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 20.0),
+                      child: Text("Statue : ",
+                          textAlign: TextAlign.left, // has impact
+                          style: GoogleFonts.roboto(
+
+                            color: CupertinoColors.black,
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(_film.status! ,
+                            textAlign: TextAlign.left, // has impact
+                            style: GoogleFonts.roboto(
+                              color: CupertinoColors.black,
+
+                            ))
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 20.0),
+                      child: Text("Note moyenne : ",
+                          textAlign: TextAlign.left, // has impact
+                          style: GoogleFonts.roboto(
+
+                            color: CupertinoColors.black,
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text(_film.voteAverage.toString() ,
+                            textAlign: TextAlign.left, // has impact
+                            style: GoogleFonts.roboto(
+                              color: CupertinoColors.black,
+
+                            ))
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 20.0),
+                      child: Text("Synopsis : ",
+                          textAlign: TextAlign.left, // has impact
+                          style: GoogleFonts.roboto(
+
+                            color: CupertinoColors.black,
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                  ),
+
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+
+                children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 5.0),
+                      child:
+                      Text(_film.overview!,
+                          textAlign: TextAlign.left, // has impact
+                          style: GoogleFonts.roboto(
+
+                            color: CupertinoColors.black,
+                          )),
+                    ),
+                  ),
+
+                ],
+              ),
+            ],
+          )
+          )   //Text(name)
         ],
       ),
     );
