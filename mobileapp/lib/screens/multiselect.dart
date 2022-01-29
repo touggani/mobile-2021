@@ -40,7 +40,6 @@ class _MultiSelectState extends State<MultiSelect> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.items);
     return AlertDialog(
       title: const Text('Select Topics'),
       content: SingleChildScrollView(
