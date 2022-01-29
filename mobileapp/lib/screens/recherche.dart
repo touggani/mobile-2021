@@ -150,7 +150,7 @@ class _RechercheState extends State<Recherche> {
                 children: [
                   // use this button to open the multi-select dialog
                   ElevatedButton(
-                    child: const Text('Select Your Favorite Topics'),
+                    child: const Text('Selectionner un genre'),
                     onPressed: _showMultiSelect,
                   ),
                 ],
