@@ -30,6 +30,20 @@ class _MyImageState extends State<MyImage> {
     print('Item added');
   }
 
+  _getAddDelete(Film film) async {
+    if (_isLikeOn == true) {
+      print('if');
+      await _addFavoris(film);
+    } else {
+      print('else');
+      for (var i = 0; i < box.length; i++) {
+        if (film.id == box.getAt(i).id) {
+          await _deleteFavoris(i);
+        }
+      }
+    }
+  }
+
   _getFavoriteStatus(Film film) {
     for (var i = 0; i < box.length; i++) {
       if (widget.film.id == box.getAt(i).id) {
@@ -72,20 +86,6 @@ class _MyImageState extends State<MyImage> {
       ));
     });
     return myList;
-  }
-
-  Future<void> getAddDelete(Film film) async {
-    if (_isLikeOn == true) {
-      print('if');
-      await _addFavoris(film);
-    } else {
-      print('else');
-      for (var i = 0; i < box.length; i++) {
-        if (film.id == box.getAt(i).id) {
-          await _deleteFavoris(i);
-        }
-      }
-    }
   }
 
   Widget _scrollImage(Film film) {
@@ -141,7 +141,7 @@ class _MyImageState extends State<MyImage> {
               setState(() {
                 _isLikeOn = !_isLikeOn;
               });
-              getAddDelete(film);
+              _getAddDelete(film);
               final snackBar = SnackBar(
                 content: _isLikeOn == true
                     ? Text('Vous avez ajouté ' +
@@ -156,6 +156,7 @@ class _MyImageState extends State<MyImage> {
                     setState(() {
                       _isLikeOn = !_isLikeOn;
                     });
+                    _getAddDelete(film);
                     final snackBar = SnackBar(
                         content: _isLikeOn == true
                             ? Text(film.title.toString() +
