@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'genre.dart';
+import '../../data/models/genre.dart';
 
 class MultiSelect extends StatefulWidget {
   final ListGenre? items;

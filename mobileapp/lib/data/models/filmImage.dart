@@ -1,4 +1,4 @@
-import 'package:mobileapp/screens/collection.dart';
+import 'package:mobileapp/data/models/collection.dart';
 
 import 'genre.dart';
 

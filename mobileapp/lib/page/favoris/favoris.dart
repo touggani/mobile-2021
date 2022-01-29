@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:lottie/lottie.dart';
-import 'film.dart';
-import 'image.dart';
+import '../../data/models/film.dart';
+import '../film/image.dart';
 
 class Favoris extends StatefulWidget {
   @override

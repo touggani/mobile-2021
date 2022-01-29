@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'api_result.dart';
-import 'film.dart';
+import '../apiPage/api_result.dart';
+import '../../data/models/film.dart';
 import 'package:http/http.dart' as http;
-import 'genre.dart';
-import 'image.dart';
+import '../../data/models/genre.dart';
+import '../film/image.dart';
 import 'multiselect.dart';
 
 class Recherche extends StatefulWidget {

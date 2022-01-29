@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lottie/lottie.dart';
-import 'recherche.dart';
-import 'accueil.dart';
-import 'favoris.dart';
-import 'profile.dart';
+import '../recherche/recherche.dart';
+import '../accueil/accueil.dart';
+import '../favoris/favoris.dart';
+import '../profile/profile.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({Key? key}) : super(key: key);

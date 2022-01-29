@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'film.g.dart';
+part '../providers/local/hive/adapters/film.g.dart';
 
 @HiveType(typeId: 0)
 class Film {

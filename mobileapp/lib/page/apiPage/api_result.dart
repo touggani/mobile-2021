@@ -1,4 +1,4 @@
-import 'film.dart';
+import '../../data/models/film.dart';
 
 class ApiResult {
   int? page;

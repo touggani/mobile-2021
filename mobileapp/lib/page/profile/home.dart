@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mobileapp/models/user_model.dart';
-import 'package:mobileapp/screens/login.dart';
+import 'package:mobileapp/data/models/user_model.dart';
+import 'package:mobileapp/page/authFirebase/login.dart';
 
 class Home extends StatefulWidget {
   const Home({ Key? key }) : super(key: key);

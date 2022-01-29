@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mobileapp/screens/film.dart';
-import 'image.dart';
+import 'package:mobileapp/data/models/film.dart';
+import '../film/image.dart';
 import 'package:flutter/widgets.dart';
-import 'api_result.dart';
+import '../apiPage/api_result.dart';
 import 'caroussel.dart';
-import 'film.dart';
+import '../../data/models/film.dart';
 import 'package:http/http.dart' as http;
 
-import 'loading.dart';
+import '../global/loading.dart';
 
 
 class Accueil extends StatefulWidget {

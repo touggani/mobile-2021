@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mobileapp/screens/login.dart';
+import 'package:mobileapp/page/authFirebase/login.dart';
 
 
 class NotLoggedIn extends StatefulWidget {

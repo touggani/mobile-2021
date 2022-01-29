@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'globals.dart' as globals;
+import '../global/globals.dart' as globals;
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
-import 'NotLoggedIn.dart';
+import '../authFirebase/NotLoggedIn.dart';
 import 'home.dart';
 
 class Profil extends StatelessWidget {

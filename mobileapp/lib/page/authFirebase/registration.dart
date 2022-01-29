@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobileapp/models/user_model.dart';
-import 'package:mobileapp/screens/home.dart';
-import 'package:mobileapp/screens/login.dart';
+import 'package:mobileapp/data/models/user_model.dart';
+import 'package:mobileapp/page/profile/home.dart';
+import 'package:mobileapp/page/authFirebase/login.dart';
 
 class Registration extends StatefulWidget {
   const Registration({ Key? key }) : super(key: key);

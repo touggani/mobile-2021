@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
-import 'film.dart';
-import 'image.dart';
+import '../../data/models/film.dart';
+import '../film/image.dart';
 
 class Carroussel extends StatefulWidget {
   final List<Film> films;
