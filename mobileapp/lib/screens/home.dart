@@ -22,35 +22,34 @@ class _HomeState extends State<Home> {
   void initState(){
     super.initState();
     FirebaseFirestore.instance.collection("users").doc(user!.uid).get()
-    .then((value){
-        this.loginUser = UserModel.fromMap(value.data());
-        setState(() {});
+        .then((value){
+      this.loginUser = UserModel.fromMap(value.data());
+      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Bienvenue"), centerTitle: true,),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 100,
-              child: Image.asset("assets/logo-appmobile.png", fit: BoxFit.contain),),
-              Text("Rebonjour", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
-              SizedBox(height: 10,),
-              Text("${loginUser.nom} ${loginUser.prenom}", style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500),),
-              Text("${loginUser.email}", style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500),),
-              SizedBox(height: 15,),
-              ActionChip(label: Text("Deconnexion"), onPressed: (){
-                Deconnexion(context);
-              }), 
-            ],
-          )
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 100,
+                  child: Image.asset("assets/logo-appmobile.png", fit: BoxFit.contain),),
+                Text("Rebonjour", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
+                SizedBox(height: 10,),
+                Text("${loginUser.nom} ${loginUser.prenom}", style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500),),
+                Text("${loginUser.email}", style: TextStyle(color: Colors.black54, fontWeight: FontWeight.w500),),
+                SizedBox(height: 15,),
+                ActionChip(label: Text("Deconnexion"), onPressed: (){
+                  Deconnexion(context);
+                }),
+              ],
+            )
         ),),
     );
   }

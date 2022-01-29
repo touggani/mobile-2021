@@ -1,66 +1,91 @@
-import 'package:hive/hive.dart';
-
-part 'film.g.dart';
-
-@HiveType(typeId: 0)
-class Film {
-  @HiveField(0)
-  bool? adult;
-  @HiveField(1)
-  String? backdropPath;
-  @HiveField(3)
-  List<int>? genreIds;
-  @HiveField(4)
+class Collection {
   int? id;
-  @HiveField(5)
-  String? originalLanguage;
-  @HiveField(6)
-  String? originalTitle;
-  @HiveField(7)
+  String? name;
   String? overview;
-  @HiveField(8)
-  num? popularity;
-  @HiveField(9)
   String? posterPath;
-  @HiveField(10)
-  String? releaseDate;
-  @HiveField(11)
+  String? backdropPath;
+  List<Parts>? parts;
+
+  Collection(
+      {this.id,
+        this.name,
+        this.overview,
+        this.posterPath,
+        this.backdropPath,
+        this.parts});
+
+  Collection.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    overview = json['overview'];
+    posterPath = json['poster_path'];
+    backdropPath = json['backdrop_path'];
+    if (json['parts'] != null) {
+      parts = <Parts>[];
+      json['parts'].forEach((v) {
+        parts!.add(new Parts.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['overview'] = this.overview;
+    data['poster_path'] = this.posterPath;
+    data['backdrop_path'] = this.backdropPath;
+    if (this.parts != null) {
+      data['parts'] = this.parts!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Parts {
+  bool? adult;
+  String? backdropPath;
+  List<int>? genreIds;
+  int? id;
   String? title;
-  @HiveField(12)
+  String? originalLanguage;
+  String? originalTitle;
+  String? overview;
+  double? popularity;
+  String? posterPath;
+  String? releaseDate;
   bool? video;
-  @HiveField(13)
-  num? voteAverage;
-  @HiveField(14)
+  double? voteAverage;
   int? voteCount;
 
-  Film(
+  Parts(
       {this.adult,
         this.backdropPath,
         this.genreIds,
         this.id,
+        this.title,
         this.originalLanguage,
         this.originalTitle,
         this.overview,
         this.popularity,
         this.posterPath,
         this.releaseDate,
-        this.title,
         this.video,
         this.voteAverage,
         this.voteCount});
 
-  Film.fromJson(Map<String, dynamic> json) {
+  Parts.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    genreIds = json['genre_ids']?.cast<int>();
+    genreIds = json['genre_ids'].cast<int>();
     id = json['id'];
+    title = json['title'];
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
     overview = json['overview'];
     popularity = json['popularity'];
     posterPath = json['poster_path'];
     releaseDate = json['release_date'];
-    title = json['title'] != null ? json['title'] : json['name'];
     video = json['video'];
     voteAverage = json['vote_average'];
     voteCount = json['vote_count'];
@@ -72,13 +97,13 @@ class Film {
     data['backdrop_path'] = this.backdropPath;
     data['genre_ids'] = this.genreIds;
     data['id'] = this.id;
+    data['title'] = this.title;
     data['original_language'] = this.originalLanguage;
     data['original_title'] = this.originalTitle;
     data['overview'] = this.overview;
     data['popularity'] = this.popularity;
     data['poster_path'] = this.posterPath;
     data['release_date'] = this.releaseDate;
-    data['title'] = this.title;
     data['video'] = this.video;
     data['vote_average'] = this.voteAverage;
     data['vote_count'] = this.voteCount;

@@ -3,25 +3,92 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mobileapp/screens/filmImage.dart';
 import 'film.dart';
+import 'package:http/http.dart' as http;
+
+import 'loading.dart';
 
 class MyImage extends StatefulWidget {
   const MyImage({Key? key, this.film}) : super(key: key);
   final film;
-
   @override
   State<MyImage> createState() => _MyImageState();
 }
 
 String durationToString(int minutes) {
-  var d = Duration(minutes:minutes);
+  var d = Duration(minutes: minutes);
   List<String> parts = d.toString().split(':');
   return '${parts[0].padLeft(2, '0')}:${parts[1].padLeft(2, '0')}';
 }
 
 class _MyImageState extends State<MyImage> {
   bool _isLikeOn = false;
+  late final Box box;
+  late FilmImage _film;
+  bool init = false;
+
+  Future<void> getGenreRomance(Film film) async {
+    var url = Uri.parse(
+        'https://api.themoviedb.org/3/movie/${film.id}?api_key=df33b16d1dd87d889bd119c06dd10960');
+    debugPrint("[${DateTime.now()}]: Appel API : ${url.toString()}");
+    var request = await http.get(url);
+    if (request.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${request.statusCode}");
+      setState(() {
+        _film = FilmImage.fromJson(jsonDecode(request.body));
+        if (!init) init = true;
+      });
+    }
+  }
+
+  _deleteFavoris(int index) {
+    setState(() {
+      box.deleteAt(index);
+    });
+    print('Item deleted from box at index: $index');
+  }
+
+  _addFavoris(Film film) {
+    box.add(film);
+    print('Item added');
+  }
+
+  _getAddDelete(Film film) async {
+    if (_isLikeOn == true) {
+      print('if');
+      await _addFavoris(film);
+    } else {
+      print('else');
+      for (var i = 0; i < box.length; i++) {
+        if (film.id == box.getAt(i).id) {
+          await _deleteFavoris(i);
+        }
+      }
+    }
+  }
+
+  _getFavoriteStatus(Film film) {
+    for (var i = 0; i < box.length; i++) {
+      if (widget.film.id == box.getAt(i).id) {
+        setState(() {
+          _isLikeOn = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    box = Hive.box('favorites');
+    getGenreRomance(widget.film);
+    _getFavoriteStatus(widget.film);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +96,7 @@ class _MyImageState extends State<MyImage> {
         backgroundColor: Colors.white, body: _scrollImage(widget.film));
   }
 
-  List<Widget> _widgetList(Film film) {
+  List<Widget> _widgetList(FilmImage film) {
     List<Widget> myList = [];
     film.toJson().forEach((key, value) {
       myList.add(ListTile(
@@ -49,6 +116,9 @@ class _MyImageState extends State<MyImage> {
   }
 
   Widget _scrollImage(Film film) {
+    if (!init) {
+      return Loading();
+    }
     //Plein écran lors de l'affichage de la fenêtre
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     return NestedScrollView(
@@ -86,87 +156,46 @@ class _MyImageState extends State<MyImage> {
       },
       body: Column(
         children: [
-
-          //Expanded(child: ListView(children: _widgetList(film)))
-          Expanded(child: Column(
-
-            children: [
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 52.0, top: 10.0),
-                      child: Text(
-                          film.title!,
-                          textAlign: TextAlign.center,
-
-                          style: GoogleFonts.roboto(
-                            color: CupertinoColors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                          )),
-                    ),
-                  ),
-
-                  IconButton(
-                    padding: const EdgeInsets.only(left: 32.0, top: 10.0, right: 20.0),
-                    icon: Icon(
-                      _isLikeOn == true ? Icons.favorite :
-                      Icons.favorite_border,
-                      color: Colors.orange,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isLikeOn = !_isLikeOn;
-                      });
-                      final snackBar = SnackBar(
+          IconButton(
+            icon: Icon(
+              _isLikeOn == true ? Icons.favorite : Icons.favorite_border,
+              color: Colors.orange,
+            ),
+            onPressed: () {
+              setState(() {
+                _isLikeOn = !_isLikeOn;
+              });
+              _getAddDelete(film);
+              final snackBar = SnackBar(
+                content: _isLikeOn == true
+                    ? Text('Vous avez ajouté ' +
+                        film.title.toString() +
+                        ' à vos favoris.')
+                    : Text('Vous avez retiré ' +
+                        film.title.toString() +
+                        ' de vos favoris.'),
+                action: SnackBarAction(
+                  label: 'Annuler',
+                  onPressed: () {
+                    setState(() {
+                      _isLikeOn = !_isLikeOn;
+                    });
+                    _getAddDelete(film);
+                    final snackBar = SnackBar(
                         content: _isLikeOn == true
-                            ? Text('Vous avez ajouté ' +
-                            film.title.toString() +
-                            ' à vos favoris.')
-                            : Text('Vous avez retiré ' +
-                            film.title.toString() +
-                            ' de vos favoris.'),
-                        action: SnackBarAction(
-                          label: 'Annuler',
-                          onPressed: () {
-                            setState(() {
-                              _isLikeOn = !_isLikeOn;
-                            });
-                            final snackBar = SnackBar(
-                                content: _isLikeOn == true
-                                    ? Text(film.title.toString() +
-                                    ' a été rajouté à vos favoris.')
-                                    : Text(film.title.toString() +
-                                    ' a été retiré de vos favoris.'));
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          },
-                        ),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                  ),
-                ],
-              ),
-
-              Row( mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text("Durée : ",
-                      style: GoogleFonts.roboto(
-                        color: CupertinoColors.black,
-                        //fontSize: 15,
-                      )),
-                  Text(film.runtime.toString() ,
-                      style: GoogleFonts.roboto(
-                        color: CupertinoColors.black,
-
-                      )),
-                ],
-              )
-
-            ],
-          ))
+                            ? Text(film.title.toString() +
+                                ' a été rajouté à vos favoris.')
+                            : Text(film.title.toString() +
+                                ' a été retiré de vos favoris.'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                ),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+          ),
+          Expanded(child: ListView(children: _widgetList(_film))),
+          //Text(name)
         ],
       ),
     );

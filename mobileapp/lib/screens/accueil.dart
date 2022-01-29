@@ -10,6 +10,9 @@ import 'caroussel.dart';
 import 'film.dart';
 import 'package:http/http.dart' as http;
 
+import 'loading.dart';
+
+
 class Accueil extends StatefulWidget {
   @override
   _AccueilState createState() => _AccueilState();
@@ -135,11 +138,10 @@ class _AccueilState extends State<Accueil> {
     super.initState();
     getFilmPopular();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels + MediaQuery.of(context).size.height * 0.50 >=
+      if (_scrollController.position.pixels + MediaQuery.of(context).size.height * 0.30 >=
               _scrollController.position.maxScrollExtent &&
           !loading) {
         getFilms();
-        print("Refresh");
       }
     });
   }
@@ -156,6 +158,7 @@ class _AccueilState extends State<Accueil> {
     if (!init) {
       return Loading();
     }
+
     return Stack(children: [
       ListView(
         controller: _scrollController,
@@ -325,7 +328,7 @@ class _AccueilState extends State<Accueil> {
                             ),
                             Container(
                                 child: Column(children: [
-                              Expanded(
+                              /*Expanded(
                                 child: Container(
                                   alignment: Alignment.topRight,
                                   child: Padding(
@@ -335,7 +338,7 @@ class _AccueilState extends State<Accueil> {
                                         color: Colors.orange,
                                       )),
                                 ),
-                              ),
+                              ),*/
                               Expanded(child: Container(), flex: 8),
                               Container(
                                   width: double.infinity,
@@ -351,7 +354,8 @@ class _AccueilState extends State<Accueil> {
                                                 fontSize: 10,
                                               ))))),
                             ]))
-                          ]));
+
+                          ]),);
                 }),
           )
         ],
@@ -366,14 +370,4 @@ class _AccueilState extends State<Accueil> {
   }
 }
 
-class Loading extends StatelessWidget {
-  const Loading({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-      child: CircularProgressIndicator(),
-    ));
-  }
-}
