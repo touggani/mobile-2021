@@ -22,14 +22,18 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   FirebaseAuth auth = FirebaseAuth.instance;
+
   final box = Hive.box(CONNECTION_BOX);
 
   // This widget is the root of your application.
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -64,5 +68,11 @@ class MyApp extends StatelessWidget {
         );
       }
 
+  }
+
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
   }
 }

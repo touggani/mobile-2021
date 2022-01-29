@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:lottie/lottie.dart';
 import 'film.dart';
 import 'image.dart';
 
@@ -16,10 +17,8 @@ class _FavorisState extends State<Favoris> {
 
   late final Box box;
 
-  _deleteFavoris(int index) {
-    setState(() {
-      box.deleteAt(index);
-    });
+  _deleteFavoris(int index) async {
+      await box.deleteAt(index);
     print('Item deleted from box at index: $index');
   }
 
@@ -162,9 +161,13 @@ class _FavorisState extends State<Favoris> {
                           ));
                     });
               })),
-
-    if (Hive.box('favorites').values.length != 0)
-       Container(
+    ValueListenableBuilder(
+    valueListenable: Hive.box('favorites').listenable(),
+    builder: (context, Box box, _) {
+    if (box.values.length == 0)
+      return Container(child: Lottie.asset("assets/cinema-hal.json"));
+    return
+      Container(
     child: TextButton(
     style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 20),
@@ -174,7 +177,7 @@ class _FavorisState extends State<Favoris> {
           },
           child: const Text('Effacer tous les favoris'),
         ),
-      )
+      );})
     ]);
   }
 }
