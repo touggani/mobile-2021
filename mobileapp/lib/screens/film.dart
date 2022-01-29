@@ -1,17 +1,36 @@
+import 'package:hive/hive.dart';
+
+part 'film.g.dart';
+
+@HiveType(typeId: 0)
 class Film {
+  @HiveField(0)
   bool? adult;
+  @HiveField(1)
   String? backdropPath;
+  @HiveField(3)
   List<int>? genreIds;
+  @HiveField(4)
   int? id;
+  @HiveField(5)
   String? originalLanguage;
+  @HiveField(6)
   String? originalTitle;
+  @HiveField(7)
   String? overview;
+  @HiveField(8)
   num? popularity;
+  @HiveField(9)
   String? posterPath;
+  @HiveField(10)
   String? releaseDate;
+  @HiveField(11)
   String? title;
+  @HiveField(12)
   bool? video;
+  @HiveField(13)
   num? voteAverage;
+  @HiveField(14)
   int? voteCount;
 
   Film(

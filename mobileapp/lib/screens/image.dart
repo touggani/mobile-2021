@@ -103,7 +103,7 @@ class _MyImageState extends State<MyImage> {
               color: Colors.orange,
             ),
             onPressed: () {
-              Hive.box("favorites").add(film.backdropPath);
+              Hive.box("favorites").add(film);
               print("Add ${Hive.box("favorites").get(0)} to favorites");
               setState(() {
                 _isLikeOn = !_isLikeOn;

@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mobileapp/screens/film.dart';
 import 'package:mobileapp/screens/navigation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:mobileapp/screens/globals.dart' as globals;
 import 'package:mobileapp/screens/profile.dart';
 
 
@@ -17,6 +17,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox(FAVORITES_BOX);
   await Hive.openBox(CONNECTION_BOX);
+  Hive.registerAdapter(FilmAdapter());
   runApp(MyApp());
 }
 
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
       }
 
     });
-      if(Hive.box("connection").get("isLoggin")){
+      if(Hive.box("connection").get("isLoggin") && Hive.box("connection").get("isLoggin") != null){
         return MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
