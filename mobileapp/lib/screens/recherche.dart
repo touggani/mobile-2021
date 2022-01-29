@@ -11,8 +11,6 @@ import 'genre.dart';
 import 'image.dart';
 import 'multiselect.dart';
 
-
-
 class Recherche extends StatefulWidget {
   const Recherche({Key? key}) : super(key: key);
 
@@ -77,14 +75,13 @@ class _RechercheState extends State<Recherche> {
     getGenres();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent &&
+              _scrollController.position.maxScrollExtent &&
           !loading) {
-        if (_films.isNotEmpty)
-          if (rechercheParGenre) {
-            getSearchGenre();
-          } else {
-            getSearchFilms();
-          }
+        if (_films.isNotEmpty) if (rechercheParGenre) {
+          getSearchGenre();
+        } else {
+          getSearchFilms();
+        }
         print("Refresh");
       }
     });
@@ -97,203 +94,198 @@ class _RechercheState extends State<Recherche> {
     _scrollController.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Column(children: [
-          // check box select
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Rechercher par ',
-                    style: GoogleFonts.mochiyPopOne(
-                      color: CupertinoColors.black,
-                      fontSize: 15,
+      // check box select
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Rechercher par ',
+                style: GoogleFonts.mochiyPopOne(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+            Text('texte',
+                style: GoogleFonts.mochiyPopOne(
+                  color: Colors.orange,
+                  fontSize: 15,
+                )),
+            Text(' ou par ',
+                style: GoogleFonts.mochiyPopOne(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+            Text('genre',
+                style: GoogleFonts.mochiyPopOne(
+                  color: Colors.orange,
+                  fontSize: 15,
+                ))
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: !rechercheParGenre
+            ? TextField(
+                //controller: editingController,
+                onChanged: (value) {
+                  setState(() {
+                    _query = value;
+                  });
+                },
+                decoration: InputDecoration(
+                    labelText: "Rechercher",
+                    hintText: "Matrix 2...",
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // use this button to open the multi-select dialog
+                  ElevatedButton(
+                    child: const Text('Select Your Favorite Topics'),
+                    onPressed: _showMultiSelect,
+                  ),
+                ],
+              ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(children: [
+          Expanded(
+              child: !rechercheParGenre
+                  ? ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          rechercheParGenre = !rechercheParGenre;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0))),
+                      ),
+                      child: const Text('Rechercher par genres'),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          rechercheParGenre = !rechercheParGenre;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0))),
+                      ),
+                      child: const Text('Rechercher par texte'),
                     )),
-                Text('texte',
-                    style: GoogleFonts.mochiyPopOne(
-                      color: Colors.orange,
-                      fontSize: 15,
-                    )),
-                Text(' ou par ',
-                    style: GoogleFonts.mochiyPopOne(
-                      color: CupertinoColors.black,
-                      fontSize: 15,
-                    )),
-                Text('genre',
-                    style: GoogleFonts.mochiyPopOne(
-                      color: Colors.orange,
-                      fontSize: 15,
-                    ))
-              ],
-            ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.025,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: !rechercheParGenre? TextField(
-              //controller: editingController,
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                filterSearchResults();
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
+              ),
+              child: const Text('Rechercher'),
+            ),
+          )
+        ]),
+      ),
+      Padding(
+          padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+          child: Row(children: [
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.orange,
+                  border: Border.all(
+                    color: Colors.orange,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Text('+18',
+                    style: GoogleFonts.roboto(
+                      color: CupertinoColors.black,
+                      fontSize: 15,
+                    )),
+              ),
+            ),
+            Switch(
+              value: _isAdultOn,
               onChanged: (value) {
                 setState(() {
-                  _query = value;
+                  _isAdultOn = !_isAdultOn;
                 });
               },
-              decoration: InputDecoration(
-                  labelText: "Rechercher",
-                  hintText: "Matrix 2...",
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-            ):Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // use this button to open the multi-select dialog
-                ElevatedButton(
-                  child: const Text('Select Your Favorite Topics'),
-                  onPressed: _showMultiSelect,
-                ),
-
-              ],
             ),
-
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(children: [
-              Expanded(
-                  child: !rechercheParGenre
-                      ? ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        rechercheParGenre = !rechercheParGenre;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(25.0))),
-                    ),
-                    child: const Text('Rechercher par genres'),
-                  )
-                      : ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        rechercheParGenre = !rechercheParGenre;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(25.0))),
-                    ),
-                    child: const Text('Rechercher par texte'),
-                  )),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.025,
-              ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    filterSearchResults();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
-                  ),
-                  child: const Text('Rechercher'),
-                ),
-              )
-            ]),
-          ),
-          Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-              child: Row(children: [
-                ActionChip(
-                  elevation: 8.0,
-                  padding: EdgeInsets.all(2.0),
-                  avatar: CircleAvatar(
-                    backgroundColor: Colors.blueAccent,
-                    child: Icon(
-                      _isAdultOn
-                          ? Icons.bakery_dining_rounded
-                          : Icons.bakery_dining_outlined,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                  label: Text('+18'),
-                  onPressed: () {
-                    setState(() {
-                      _isAdultOn = !_isAdultOn;
-                    });
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('+18')));
-                  },
-                  backgroundColor: Colors.grey[200],
-                  shape: StadiumBorder(
-                      side: BorderSide(
-                        width: 1,
-                        color: Colors.redAccent,
-                      )),
-                ),
-
-              ])),
-          /*if(recherce_par_genre)
+          ])),
+      /*if(recherce_par_genre)
             const Divider(
             height: 10,
           ), */
-          if(rechercheParGenre)
-          // display selected items
-            Wrap(
-              children: selectedItems
-                  .map((e) => Chip(
-                label: Text(e.name.toString()),
-              ))
-                  .toList(),
-            ),
+      if (rechercheParGenre)
+        // display selected items
+        Wrap(
+          children: selectedItems
+              .map((e) => Chip(
+                    label: Text(e.name.toString()),
+                  ))
+              .toList(),
+        ),
 
-            !init
-              ? Expanded(child: Lottie.asset("assets/the-panda-eats-popcorn.json"))
-              : Expanded(
+      !init
+          ? Expanded(child: Lottie.asset("assets/the-panda-eats-popcorn.json"))
+          : Expanded(
               child: Stack(children: [
-                ListView.separated(
-                  itemCount: _films.length,
-                  controller: _scrollController,
-                  separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                        title: Text(_films[index].title!,
-                            style: GoogleFonts.roboto(
-                              color: CupertinoColors.black,
-                              fontSize: 10,
-                            )),
-                        leading: Image.network(_films[index].posterPath != null
-                            ? 'https://image.tmdb.org/t/p/w500' +
-                            _films[index].posterPath!
-                            : 'https://i.imgur.com/R7mqXKL.png'),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  MyImage(film: _films[index])));
-                        }
+              ListView.separated(
+                itemCount: _films.length,
+                controller: _scrollController,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+                itemBuilder: (context, index) {
+                  return ListTile(
+                      title: Text(_films[index].title!,
+                          style: GoogleFonts.roboto(
+                            color: CupertinoColors.black,
+                            fontSize: 10,
+                          )),
+                      leading: Image.network(_films[index].posterPath != null
+                          ? 'https://image.tmdb.org/t/p/w500' +
+                              _films[index].posterPath!
+                          : 'https://i.imgur.com/R7mqXKL.png'),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) =>
+                                MyImage(film: _films[index])));
+                      }
                       // action
-                    );
-                  },
+                      );
+                },
+              ),
+              if (loading) ...[
+                Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Container(
+                      height: 80,
+                      child: Center(child: CircularProgressIndicator())),
                 ),
-                if (loading) ...[
-                  Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Container(
-                        height: 80,
-                        child: Center(child: CircularProgressIndicator())),
-                  ),
-                ]
-              ]))
-        ]));
+              ]
+            ]))
+    ]));
   }
 
   Future<void> getSearchFilms() async {
@@ -359,10 +351,9 @@ class _RechercheState extends State<Recherche> {
     var adult = '&include_adult=' + _isAdultOn.toString();
 
     for (var i = 0; i < selectedItems.length; i++) {
-      if(_genreQuery == ''){
+      if (_genreQuery == '') {
         _genreQuery = selectedItems[i].id.toString();
-      }
-      else{
+      } else {
         _genreQuery = _genreQuery + ',' + selectedItems[i].id.toString();
       }
     }
@@ -383,11 +374,10 @@ class _RechercheState extends State<Recherche> {
     var responseAPI = await http.get(url);
     if (responseAPI.statusCode == 200) {
       debugPrint(
-          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI
-              .statusCode}");
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI.statusCode}");
       setState(() {
         _apiResult = ApiResult.fromJson(jsonDecode(responseAPI.body));
-         _films = _films  + _apiResult!.results!;
+        _films = _films + _apiResult!.results!;
         loading = false;
         if (!init) init = true;
         if (_apiResult!.page == _apiResult!.totalPages) {
