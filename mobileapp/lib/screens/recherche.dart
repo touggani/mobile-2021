@@ -5,16 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
-
 import 'api_result.dart';
 import 'film.dart';
 import 'package:http/http.dart' as http;
-
 import 'genre.dart';
 import 'image.dart';
 import 'multiselect.dart';
-
-
 
 class Recherche extends StatefulWidget {
   const Recherche({Key? key}) : super(key: key);
@@ -75,9 +71,6 @@ class _RechercheState extends State<Recherche> {
     }
   }
 
-  // get search by genre
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -104,7 +97,6 @@ class _RechercheState extends State<Recherche> {
     super.dispose();
     _scrollController.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
