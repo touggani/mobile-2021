@@ -10,6 +10,7 @@ import 'api_result.dart';
 import 'film.dart';
 import 'package:http/http.dart' as http;
 
+import 'genre.dart';
 import 'image.dart';
 
 class Recherche extends StatefulWidget {
@@ -26,10 +27,10 @@ class _RechercheState extends State<Recherche> {
   bool allloaded = false;
   bool init = false;
   var _query = '';
-
+  bool genre_ok = false;
   ApiResult? _apiResult;
   List<Film> _films = [];
-
+  Genres? _genres;
   bool _isSearchEmpty = true;
 
   void filterSearchResults() {
@@ -47,6 +48,7 @@ class _RechercheState extends State<Recherche> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getGenres();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
               _scrollController.position.maxScrollExtent &&
@@ -234,6 +236,20 @@ class _RechercheState extends State<Recherche> {
         if (_apiResult!.page == _apiResult!.totalPages) {
           allloaded = true;
         }
+      });
+    }
+  }
+
+  Future<void> getGenres() async {
+
+    var url = Uri.parse(
+        'https://api.themoviedb.org/3/genre/movie/list?api_key=df33b16d1dd87d889bd119c06dd10960');
+    debugPrint(url.toString());
+    var responseAPI = await http.get(url);
+    if (responseAPI.statusCode == 200) {
+      setState(() {
+        _genres = Genres.fromJson(jsonDecode(responseAPI.body));
+        genre_ok = true;
       });
     }
   }
