@@ -134,7 +134,19 @@ class _LoginState extends State<Login> {
                         },
                         child: Text("S'inscrire",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),),)
                       ],
-                    )
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 30.0),
+                    child : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(onTap: (){
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Navigation()));
+                        },
+                          child: Text("Acceder directement à l'application",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),),)
+                      ],
+                    ),)
                   ],)
               )
             ,)
