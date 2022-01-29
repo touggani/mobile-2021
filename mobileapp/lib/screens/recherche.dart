@@ -28,6 +28,7 @@ class _RechercheState extends State<Recherche> {
   bool init = false;
   var _query = '';
   bool genre_ok = false;
+  bool recherce_par_genre = false;
   ApiResult? _apiResult;
   List<Film> _films = [];
   Genres? _genres;
@@ -70,56 +71,88 @@ class _RechercheState extends State<Recherche> {
   Widget build(BuildContext context) {
     return Center(
         child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Rechercher par ',
-                    style: GoogleFonts.mochiyPopOne(
-                      color: CupertinoColors.black,
-                      fontSize: 15,
-                    )),
-                Text('texte',
-                    style: GoogleFonts.mochiyPopOne(
-                      color: Colors.orange,
-                      fontSize: 15,
-                    )),
-                Text(' ou par ',
-                    style: GoogleFonts.mochiyPopOne(
-                      color: CupertinoColors.black,
-                      fontSize: 15,
-                    )),
-                Text('genre',
-                    style: GoogleFonts.mochiyPopOne(
-                      color: Colors.orange,
-                      fontSize: 15,
-                    ))
-              ],
-            ),
-          ),
       Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(children: [
-            Expanded(
-              child: TextField(
-                //controller: editingController,
-                onChanged: (value) {
-                  setState(() {
-                    _query = value;
-                  });
-                },
-                decoration: InputDecoration(
-                    labelText: "Rechercher",
-                    hintText: "Matrix 2...",
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-              ),
-            ),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.025,),
-            ElevatedButton(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Rechercher par ',
+                style: GoogleFonts.mochiyPopOne(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+            Text('texte',
+                style: GoogleFonts.mochiyPopOne(
+                  color: Colors.orange,
+                  fontSize: 15,
+                )),
+            Text(' ou par ',
+                style: GoogleFonts.mochiyPopOne(
+                  color: CupertinoColors.black,
+                  fontSize: 15,
+                )),
+            Text('genre',
+                style: GoogleFonts.mochiyPopOne(
+                  color: Colors.orange,
+                  fontSize: 15,
+                ))
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          //controller: editingController,
+          onChanged: (value) {
+            setState(() {
+              _query = value;
+            });
+          },
+          decoration: InputDecoration(
+              labelText: "Rechercher",
+              hintText: "Matrix 2...",
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(children: [
+          Expanded(
+              child: !recherce_par_genre
+                  ? ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          recherce_par_genre = !recherce_par_genre;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0))),
+                      ),
+                      child: const Text('Rechercher par genres'),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          recherce_par_genre = !recherce_par_genre;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0))),
+                      ),
+                      child: const Text('Rechercher par texte'),
+                    )),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.025,
+          ),
+          Expanded(
+            child: ElevatedButton(
               onPressed: () {
                 filterSearchResults();
               },
@@ -129,7 +162,9 @@ class _RechercheState extends State<Recherche> {
               ),
               child: const Text('Rechercher'),
             ),
-          ])),
+          )
+        ]),
+      ),
       Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
           child: Row(children: [
@@ -241,12 +276,13 @@ class _RechercheState extends State<Recherche> {
   }
 
   Future<void> getGenres() async {
-
     var url = Uri.parse(
         'https://api.themoviedb.org/3/genre/movie/list?api_key=df33b16d1dd87d889bd119c06dd10960');
-    debugPrint(url.toString());
+    debugPrint("[${DateTime.now()}]: Appel API : ${url.toString()}");
     var responseAPI = await http.get(url);
     if (responseAPI.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI.statusCode}");
       setState(() {
         _genres = Genres.fromJson(jsonDecode(responseAPI.body));
         genre_ok = true;
