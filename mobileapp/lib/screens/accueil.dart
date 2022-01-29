@@ -10,6 +10,8 @@ import 'caroussel.dart';
 import 'film.dart';
 import 'package:http/http.dart' as http;
 
+import 'loading.dart';
+
 
 class Accueil extends StatefulWidget {
   @override
@@ -368,14 +370,4 @@ class _AccueilState extends State<Accueil> {
   }
 }
 
-class Loading extends StatelessWidget {
-  const Loading({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-      child: CircularProgressIndicator(),
-    ));
-  }
-}

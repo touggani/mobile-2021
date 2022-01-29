@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mobileapp/screens/filmImage.dart';
 import 'film.dart';
+import 'package:http/http.dart' as http;
+
+import 'loading.dart';
 
 class MyImage extends StatefulWidget {
 
@@ -17,6 +23,24 @@ class MyImage extends StatefulWidget {
 class _MyImageState extends State<MyImage> {
   bool _isLikeOn = false;
   late final Box box;
+  late FilmImage _film;
+  bool init = false;
+
+  Future<void> getGenreRomance(Film film) async {
+    var url = Uri.parse(
+        'https://api.themoviedb.org/3/movie/${film.id}?api_key=df33b16d1dd87d889bd119c06dd10960');
+    debugPrint("[${DateTime.now()}]: Appel API : ${url.toString()}");
+    var request = await http.get(url);
+    if (request.statusCode == 200) {
+      debugPrint(
+          "[${DateTime.now()}]: Code de retour de l'appel API : ${request.statusCode}");
+      setState(() {
+        _film = FilmImage.fromJson(jsonDecode(request.body));
+        if (!init) init = true;
+      });
+    }
+  }
+
 
   _deleteFavoris(int index) {
     setState(() {
@@ -59,6 +83,7 @@ class _MyImageState extends State<MyImage> {
     // TODO: implement initState
     super.initState();
     box = Hive.box('favorites');
+    getGenreRomance(widget.film);
     _getFavoriteStatus(widget.film);
   }
 
@@ -69,7 +94,7 @@ class _MyImageState extends State<MyImage> {
         backgroundColor: Colors.white, body: _scrollImage(widget.film));
   }
 
-  List<Widget> _widgetList(Film film) {
+  List<Widget> _widgetList(FilmImage film) {
     List<Widget> myList = [];
     film.toJson().forEach((key, value) {
       myList.add(ListTile(
@@ -89,7 +114,9 @@ class _MyImageState extends State<MyImage> {
   }
 
   Widget _scrollImage(Film film) {
-
+    if (!init) {
+      return Loading();
+    }
     //Plein écran lors de l'affichage de la fenêtre
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     return NestedScrollView(
@@ -170,7 +197,7 @@ class _MyImageState extends State<MyImage> {
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
           ),
-          Expanded(child: ListView(children: _widgetList(film))),
+          Expanded(child: ListView(children: _widgetList(_film))),
           //Text(name)
         ],
       ),
