@@ -202,19 +202,31 @@ class _RechercheState extends State<Recherche> {
       Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 8.0),
           child: Row(children: [
-            Text('+18',
-                style: GoogleFonts.mochiyPopOne(
-                  color: CupertinoColors.black,
-                  fontSize: 15,
-                )),
-            Switch(
-                  value: _isAdultOn,
-                  onChanged: (value) {
-                    setState(() {
-                      _isAdultOn = !_isAdultOn;
-                    });
-                  },
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.orange,
+                border:Border.all(
+                  color: Colors.orange,
+                  width: 2,
                 ),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Text('+18',
+                    style: GoogleFonts.roboto(
+                      color: CupertinoColors.black,
+                      fontSize: 15,
+                    )),
+              ),
+            ),
+            Switch(
+              value: _isAdultOn,
+              onChanged: (value) {
+                setState(() {
+                  _isAdultOn = !_isAdultOn;
+                });
+              },
+            ),
           ])),
       /*if(recherce_par_genre)
             const Divider(
