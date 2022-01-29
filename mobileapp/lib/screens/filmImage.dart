@@ -59,7 +59,11 @@ class FilmImage {
   FilmImage.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    belongsToCollection = json['belongs_to_collection'];
+    if (json['belongs_to_collection'] != null) {
+      belongsToCollection = new Collection.fromJson(json['belongs_to_collection']);
+    } else {
+      belongsToCollection = null;
+    }
     budget = json['budget'];
     if (json['genres'] != null) {
       genres = <Genres>[];
