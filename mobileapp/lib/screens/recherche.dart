@@ -3,13 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
-
 import 'api_result.dart';
 import 'film.dart';
 import 'package:http/http.dart' as http;
-
 import 'genre.dart';
 import 'image.dart';
 import 'multiselect.dart';
@@ -27,17 +24,16 @@ class _RechercheState extends State<Recherche> {
   bool _isAdultOn = false;
   final ScrollController _scrollController = ScrollController();
   bool loading = false;
-  bool allloaded = false;
+  bool allLoaded = false;
   bool init = false;
   var _genreQuery = '';
   var _query = '';
-  bool genre_ok = false;
-  bool recherce_par_genre = false;
+  bool genreOk = false;
+  bool rechercheParGenre = false;
   ApiResult? _apiResult;
   List<Film> _films = [];
   ListGenre? _genres;
-  bool _isSearchEmpty = true;
-
+  bool isSearchEmpty = true;
   List<Genres> selectedItems = [];
 
   void _showMultiSelect() async {
@@ -62,12 +58,12 @@ class _RechercheState extends State<Recherche> {
   void filterSearchResults() {
     setState(() {
       init = false;
-      _isSearchEmpty = _query.isEmpty;
+      isSearchEmpty = _query.isEmpty;
       loading = true;
       _films = [];
       _apiResult = null;
     });
-    if (recherce_par_genre) {
+    if (rechercheParGenre) {
       getSearchGenre();
     } else {
       getSearchFilms();
@@ -84,7 +80,7 @@ class _RechercheState extends State<Recherche> {
           _scrollController.position.maxScrollExtent &&
           !loading) {
         if (_films.isNotEmpty)
-          if (recherce_par_genre) {
+          if (rechercheParGenre) {
             getSearchGenre();
           } else {
             getSearchFilms();
@@ -138,7 +134,7 @@ class _RechercheState extends State<Recherche> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: !recherce_par_genre? TextField(
+            child: !rechercheParGenre? TextField(
               //controller: editingController,
               onChanged: (value) {
                 setState(() {
@@ -168,11 +164,11 @@ class _RechercheState extends State<Recherche> {
             padding: const EdgeInsets.all(8.0),
             child: Row(children: [
               Expanded(
-                  child: !recherce_par_genre
+                  child: !rechercheParGenre
                       ? ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        recherce_par_genre = !recherce_par_genre;
+                        rechercheParGenre = !rechercheParGenre;
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -185,7 +181,7 @@ class _RechercheState extends State<Recherche> {
                       : ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        recherce_par_genre = !recherce_par_genre;
+                        rechercheParGenre = !rechercheParGenre;
                       });
                     },
                     style: ElevatedButton.styleFrom(
@@ -249,7 +245,7 @@ class _RechercheState extends State<Recherche> {
             const Divider(
             height: 10,
           ), */
-          if(recherce_par_genre)
+          if(rechercheParGenre)
           // display selected items
             Wrap(
               children: selectedItems
@@ -301,7 +297,7 @@ class _RechercheState extends State<Recherche> {
   }
 
   Future<void> getSearchFilms() async {
-    if (allloaded) {
+    if (allLoaded) {
       return;
     }
     setState(() {
@@ -331,7 +327,7 @@ class _RechercheState extends State<Recherche> {
         loading = false;
         if (!init) init = true;
         if (_apiResult!.page == _apiResult!.totalPages) {
-          allloaded = true;
+          allLoaded = true;
         }
       });
     }
@@ -347,13 +343,13 @@ class _RechercheState extends State<Recherche> {
           "[${DateTime.now()}]: Code de retour de l'appel API : ${responseAPI.statusCode}");
       setState(() {
         _genres = ListGenre.fromJson(jsonDecode(responseAPI.body));
-        genre_ok = true;
+        genreOk = true;
       });
     }
   }
 
   Future<void> getSearchGenre() async {
-    if (allloaded) {
+    if (allLoaded) {
       return;
     }
     setState(() {
@@ -395,7 +391,7 @@ class _RechercheState extends State<Recherche> {
         loading = false;
         if (!init) init = true;
         if (_apiResult!.page == _apiResult!.totalPages) {
-          allloaded = true;
+          allLoaded = true;
         }
       });
     }
