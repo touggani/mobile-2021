@@ -15,7 +15,7 @@ class Favoris extends StatelessWidget {
     //print(Hive.box("favorites").length);
     //Hive.box("favorites").clear();
     debugPrint(
-        "[${DateTime.now()}]: ${Hive.box("favorites").get(1).runtimeType.toString()}");
+        "[${DateTime.now()}]: ${Hive.box("favorites").get(1).toString()}");
 
     return ListView(children: [
       Padding(
@@ -81,8 +81,8 @@ class Favoris extends StatelessWidget {
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => MyImage(
-                                          film:
-                                              Hive.box("favorites").get(index))));
+                                          film: Hive.box("favorites")
+                                              .get(index))));
                                 },
                               ),
                               Container(
@@ -107,7 +107,7 @@ class Favoris extends StatelessWidget {
                               ]))
                             ]),
                       ),
-                      Expanded(
+                      /* Container(
                         child: TextButton(
                           style: TextButton.styleFrom(
                             textStyle: const TextStyle(fontSize: 20),
@@ -118,11 +118,22 @@ class Favoris extends StatelessWidget {
                           },
                           child: const Text('Effacer'),
                         ),
-                      )
+                      )*/
                     ],
                   ));
             }),
       ),
+      Container(
+        child: TextButton(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontSize: 20),
+          ),
+          onPressed: () {
+            Hive.box("favorites").clear();
+          },
+          child: const Text('Effacer tous les favoris'),
+        ),
+      )
     ]);
   }
 }

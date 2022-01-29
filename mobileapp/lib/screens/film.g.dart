@@ -8,7 +8,7 @@ part of 'film.dart';
 
 class FilmAdapter extends TypeAdapter<Film> {
   @override
-  final int typeId = 0;
+  final typeId = 0;
 
   @override
   Film read(BinaryReader reader) {

@@ -14,10 +14,11 @@ const String CONNECTION_BOX = "connection";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Hive.registerAdapter<Film>(FilmAdapter());
   await Hive.initFlutter();
   await Hive.openBox(FAVORITES_BOX);
   await Hive.openBox(CONNECTION_BOX);
-  Hive.registerAdapter(FilmAdapter());
+
   runApp(MyApp());
 }
 
