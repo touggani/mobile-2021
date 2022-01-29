@@ -1,13 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-
-
 import 'film.dart';
 
 class MyImage extends StatefulWidget {
@@ -21,7 +16,37 @@ class MyImage extends StatefulWidget {
 
 class _MyImageState extends State<MyImage> {
   bool _isLikeOn = false;
+  late final Box box;
 
+  _deleteFavoris(int index) {
+    setState(() {
+      box.deleteAt(index);
+    });
+    print('Item deleted from box at index: $index');
+  }
+
+  _addFavoris(Film film) {
+    box.add(film);
+    print('Item added');
+  }
+
+  _getFavoriteStatus(Film film) {
+    for (var i = 0; i < box.length; i++) {
+      if (widget.film.id == box.getAt(i).id) {
+        setState(() {
+          _isLikeOn = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    box = Hive.box('favorites');
+    _getFavoriteStatus(widget.film);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +56,6 @@ class _MyImageState extends State<MyImage> {
   }
 
   List<Widget> _widgetList(Film film) {
-
-
-
     List<Widget> myList = [];
     film.toJson().forEach((key, value) {
       myList.add(ListTile(
@@ -52,8 +74,21 @@ class _MyImageState extends State<MyImage> {
     return myList;
   }
 
-  Widget _scrollImage(Film film) {
+  Future<void> getAddDelete(Film film) async {
+    if (_isLikeOn == true) {
+      print('if');
+      await _addFavoris(film);
+    } else {
+      print('else');
+      for (var i = 0; i < box.length; i++) {
+        if (film.id == box.getAt(i).id) {
+          await _deleteFavoris(i);
+        }
+      }
+    }
+  }
 
+  Widget _scrollImage(Film film) {
 
     //Plein écran lors de l'affichage de la fenêtre
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
@@ -103,12 +138,10 @@ class _MyImageState extends State<MyImage> {
               color: Colors.orange,
             ),
             onPressed: () {
-              Hive.box("favorites").add(film);
-              print("Add ${Hive.box("favorites").get(0)} to favorites");
               setState(() {
                 _isLikeOn = !_isLikeOn;
-
               });
+              getAddDelete(film);
               final snackBar = SnackBar(
                 content: _isLikeOn == true
                     ? Text('Vous avez ajouté ' +
