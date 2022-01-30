@@ -38,31 +38,28 @@ class CommentMobState extends State<CommentMob> {
     super.initState();
     box = Hive.box('connection');
     myController = TextEditingController();
-    getComment();
-    StorageHelper().getUsers().then((value) => {
-      setState(() {
-        _users = value.toList();
-      })});
-    //print(_comments.toString());
-  }
-
-  getComment() async {
-    await StorageHelper().getComment(widget.movie.id!).then((value) => {
-      setState(() {
-        _comments = value.toList();
-      })});
-  }
-
-  addNomDeux() async {
-    if (_comments.length == 0)
-      return;
-    for (int i = 0; i < _comments.length; i++) {
-      for (int j= 0; j< _users.length; j++){
-        if (_comments[i]["userId"] == _users[j]["uid"])
-        setState(() {
-          _comments[i]["nom"] = _users[j]["nom"].toString();
-          _comments[i]["imgUrl"] = _users[j]["imgUrl"].toString();
+    StorageHelper().getComment(widget.movie.id!).then((comments) => {
+          setState(() {
+            _comments = comments.toList();
+          }),
+          StorageHelper().getUsers().then((users) => {
+                setState(() {
+                  _users = users.toList();
+                }),
+                addNomImg()
+              })
         });
+  }
+
+  addNomImg() async {
+    if (_comments.length == 0) return;
+    for (int i = 0; i < _comments.length; i++) {
+      for (int j = 0; j < _users.length; j++) {
+        if (_comments[i]["userId"] == _users[j]["uid"])
+          setState(() {
+            _comments[i]["nom"] = _users[j]["nom"].toString();
+            _comments[i]["imgUrl"] = _users[j]["imgUrl"].toString();
+          });
       }
     }
     setState(() {
@@ -71,8 +68,7 @@ class CommentMobState extends State<CommentMob> {
   }
 
   addNom() async {
-    if (_comments.length == 0)
-      return;
+    if (_comments.length == 0) return;
     for (int i = 0; i < _comments.length; i++) {
       var userId = _comments[i]["userId"].toString();
       var userName = await StorageHelper().getUserName(userId);
@@ -86,8 +82,7 @@ class CommentMobState extends State<CommentMob> {
   }
 
   postComment() async {
-    if (myController.text == "")
-      return;
+    if (myController.text == "") return;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     CommentModel commentModel = CommentModel();
     commentModel.movieId = widget.movie.id;
@@ -107,16 +102,13 @@ class CommentMobState extends State<CommentMob> {
 
   @override
   Widget build(BuildContext context) {
-    //addNom();
-    addNomDeux();
-    if (!init)
-      return Loading();
+    if (!init) return Loading();
     return Expanded(
       child: Column(
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(0,8,0,8),
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
               child: Container(
                 child: Text(
                   "Commentaires ",
@@ -154,44 +146,49 @@ class CommentMobState extends State<CommentMob> {
                 child: ListView.builder(
                     itemCount: _comments.length,
                     itemBuilder: (BuildContext context, int index) {
-                      var dt = (_comments[index]["timestamp"] as Timestamp).toDate();
-
+                      var dt =
+                          (_comments[index]["timestamp"] as Timestamp).toDate();
                       return Card(
                         child: ListTile(
-                          leading: _comments[index]["imgUrl"] == null ? Image.asset("assets/blank-profile.png") : Image.network(_comments[index]["imgUrl"]),
-                            title: Text(
-                              _comments[index]["nom"] == null ? 'Toto' : _comments[index]["nom"],
-                              style: GoogleFonts.roboto(
-                                color: Colors.orange,
-                                //fontSize: 15,
-                              ),
+                          leading: _comments[index]["imgUrl"] == null
+                              ? Image.asset("assets/blank-profile.png")
+                              : Image.network(_comments[index]["imgUrl"]),
+                          title: Text(
+                            _comments[index]["nom"] == null
+                                ? 'Toto'
+                                : _comments[index]["nom"],
+                            style: GoogleFonts.roboto(
+                              color: Colors.orange,
+                              //fontSize: 15,
                             ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(_comments[index]["comment"].toString(),
-                                      style: GoogleFonts.roboto(
-                                        color: Colors.black,
-                                        //fontSize: 15,
-                                      )),
-                                  Text(dateFormat.format(dt).toString(),
-
-                                    style: const TextStyle(
-                                      fontSize: 12.0,
-                                      color: Colors.black54,
-                                    ),
-                                  ),
-                                ],
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(_comments[index]["comment"].toString(),
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.black,
+                                    //fontSize: 15,
+                                  )),
+                              Text(
+                                dateFormat.format(dt).toString(),
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                  color: Colors.black54,
+                                ),
                               ),
-
-
+                            ],
+                          ),
                         ),
                       );
                     }),
               ),
             )
           else
-            Container(child: Expanded(child: Center(child: const Text("No comment for this movie"))))
+            Container(
+                child: Expanded(
+                    child:
+                        Center(child: const Text("No comment for this movie"))))
         ],
       ),
     );
