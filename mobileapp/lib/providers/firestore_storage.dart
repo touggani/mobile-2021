@@ -22,7 +22,7 @@ class StorageHelper {
 
   Future<List> getComment(movieId) async {
     var res = [];
-    await comments
+    await comments.orderBy("timestamp")
         .where("movieId", isEqualTo: movieId)
         .get()
         .then((querySnapshot) => {

@@ -32,7 +32,6 @@ class CommentMobState extends State<CommentMob> {
 
   @override
   initState() {
-    // TODO: implement initState
     super.initState();
     box = Hive.box('connection');
     myController = TextEditingController();
@@ -90,6 +89,7 @@ class CommentMobState extends State<CommentMob> {
     commentModel.comment = myController.text;
     commentModel.timestamp = Timestamp.now();
     await firebaseFirestore.collection("comment").add(commentModel.toMap());
+
     Fluttertoast.showToast(
         msg: "Commentaire ajouté !",
         toastLength: Toast.LENGTH_SHORT,
@@ -100,6 +100,7 @@ class CommentMobState extends State<CommentMob> {
         fontSize: 16.0);
     if(mounted){
       setState(() {            // Add these lines to your code
+
 
       });
     }
