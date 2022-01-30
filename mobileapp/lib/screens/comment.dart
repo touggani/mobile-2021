@@ -35,9 +35,14 @@ class CommentMobState extends State<CommentMob> {
     super.initState();
     box = Hive.box('connection');
     myController = TextEditingController();
+    recupComment();
+  }
+
+  recupComment() {
     StorageHelper().getComment(widget.movie.id!).then((comments) => {
           setState(() {
             _comments = comments.toList();
+            print(_comments.length);
           }),
           StorageHelper().getUsers().then((users) => {
                 setState(() {
@@ -49,9 +54,10 @@ class CommentMobState extends State<CommentMob> {
   }
 
   addNomImg() async {
-    if (_comments.length == 0) return setState(() {
-      init = true;
-    });
+    if (_comments.length == 0)
+      return setState(() {
+        init = true;
+      });
     for (int i = 0; i < _comments.length; i++) {
       for (int j = 0; j < _users.length; j++) {
         if (_comments[i]["userId"] == _users[j]["uid"])
@@ -98,12 +104,10 @@ class CommentMobState extends State<CommentMob> {
         backgroundColor: Colors.orange,
         textColor: Colors.black,
         fontSize: 16.0);
-    if(mounted){
-      setState(() {            // Add these lines to your code
-
-
-      });
-    }
+    setState(() {
+      myController.text = "";
+    });
+    recupComment();
   }
 
   @override
@@ -140,7 +144,6 @@ class CommentMobState extends State<CommentMob> {
                 onPressed: () {
                   postComment();
                   myController.clear();
-
                 },
                 child: const Text(
                   "Add comment",
@@ -158,7 +161,8 @@ class CommentMobState extends State<CommentMob> {
                           (_comments[index]["timestamp"] as Timestamp).toDate();
                       return Card(
                         child: ListTile(
-                          leading: (_comments[index]["imgUrl"] == "" || _comments[index]["imgUrl"] == null)
+                          leading: (_comments[index]["imgUrl"] == "" ||
+                                  _comments[index]["imgUrl"] == null)
                               ? Image.asset("assets/blank-profile.png")
                               : Image.network(_comments[index]["imgUrl"]),
                           title: Text(
