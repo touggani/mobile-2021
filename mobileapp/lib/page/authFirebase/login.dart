@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
           return("Entrez un mot de passe");
         }
         if(!regex.hasMatch(value)){
-          return ("le mot de passe doit être de 6 caracteres minimum");
+          return ("Le mot de passe doit faire au moins 6 caractères");
         }
       },
       onSaved: (value){
@@ -144,7 +144,7 @@ class _LoginState extends State<Login> {
 
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => Navigation()));
                               },
-                                child: Text("Acceder directement à l'application",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),),)
+                                child: Text("Accéder directement à l'application",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),),)
                             ],
                           ),)
                       ],)
@@ -162,7 +162,7 @@ class _LoginState extends State<Login> {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
-        Fluttertoast.showToast(msg: "Connexion réussi"),
+        Fluttertoast.showToast(msg: "Connexion réussie"),
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navigation())),
 
       }).catchError((e){
