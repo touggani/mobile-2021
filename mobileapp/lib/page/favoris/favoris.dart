@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:mobileapp/data/models/film.dart';
 import '../film/image.dart';
 import 'package:lottie/lottie.dart';
 
@@ -17,8 +18,20 @@ class _FavorisState extends State<Favoris> {
   late final Box box;
 
   _deleteFavoris(int index) async {
-      await box.deleteAt(index);
-    print('Item deleted from box at index: $index');
+    //Le deleteAt ne regénère pas les index... problème pour faire une boucle sur l'index du coup.
+    //Suppression custom pour contourner ce problème.
+    //await box.deleteAt(index);
+    var listFilm = [];
+    for (int i=0;i<box.length;i++){
+      if (i == index) {
+        //print("On passe : ${box.getAt(i).title}");
+      } else listFilm.add(box.getAt(i));
+    }
+    await box.clear();
+    for (int j=0;j<listFilm.length;j++){
+      //print("On ajoute : ${listFilm[j].title}");
+      await box.add(listFilm[j]);
+    }
   }
 
   _deleteAllFavoris() {

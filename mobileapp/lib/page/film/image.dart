@@ -59,10 +59,8 @@ class _MyImageState extends State<MyImage> {
 
   _getAddDelete(Film film) async {
     if (_isLikeOn == true) {
-      print('if');
       await _addFavoris(film);
     } else {
-      print('else');
       for (var i = 0; i < box.length; i++) {
         if (film.id == box.getAt(i).id) {
           await _deleteFavoris(i);
