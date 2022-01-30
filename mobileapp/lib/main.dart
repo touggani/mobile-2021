@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobileapp/data/models/film.dart';
 import 'package:mobileapp/page/global/navigation.dart';
@@ -13,7 +16,18 @@ const String CONNECTION_BOX = "connection";
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: kIsWeb
+        ?
+    FirebaseOptions(
+      apiKey: "AIzaSyAv-fbA1ky8O4u0CnlORWoqmW_vKiRcdWU", // Your apiKey
+      appId: "1:921763117541:web:d53d76a4e241583bc2170c", // Your appId
+      messagingSenderId: "921763117541", // Your messagingSenderId
+      projectId: "mobileapp-m2-s1", // Your projectId
+      storageBucket: 'mobileapp-m2-s1.appspot.com'
+    )
+  : null,
+  );
   Hive.registerAdapter<Film>(FilmAdapter());
   await Hive.initFlutter();
   await Hive.openBox(FAVORITES_BOX);

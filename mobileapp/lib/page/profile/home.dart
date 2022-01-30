@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobileapp/data/models/user_model.dart';
 import 'package:mobileapp/page/authFirebase/login.dart';
@@ -25,6 +27,7 @@ class _HomeState extends State<Home> {
   UserModel loginUser = UserModel();
   bool isLoading = false;
   bool init = false;
+  var count;
 
   @override
   void initState() {
@@ -39,11 +42,22 @@ class _HomeState extends State<Home> {
         .get()
         .then((value) {
       this.loginUser = UserModel.fromMap(value.data());
+      _getCommentsCount();
+    });
+  }
+
+  _getCommentsCount() async {
+    await FirebaseFirestore.instance
+        .collection("comment")
+        .where('userId', isEqualTo: user!.uid)
+        .get()
+        .then((value) {
       setState(() {
-        init = true;
+         count = value.size;
+         init = true;
       });
     });
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +81,10 @@ class _HomeState extends State<Home> {
                       child: Material(
                           color: Colors.transparent,
                           child: Ink.image(
-                            image: loginUser.imgUrl != null
+                            image: loginUser.imgUrl != ""
                                 ? NetworkImage("${loginUser.imgUrl}")
                                 : NetworkImage(
-                                    "https://www.google.com/search?q=profile+image&rlz=1C1CHBF_frFR967FR967&tbm=isch&source=iu&ictx=1&vet=1&fir=H6pHpB03ZEAgeM%252Cwg0CyFWNfK7o5M%252C_%253B6LZBULRxg_WfYM%252Cb5C9ViMmmhpq-M%252C_%253BB3G4vEo9lSBh0M%252CFvQHUVZ-cx81xM%252C_%253BJpaFCmffhUdABM%252CeirPelkp9eoYkM%252C_%253BgRmIHR3owD_V0M%252CpmE0x0RqkiBF7M%252C_%253BjAbbSdWZuoI5VM%252CbNcOzSNtObF5xM%252C_%253Bbn2FhB9xAX_09M%252CAxbDaKpnLJRHjM%252C_%253BuXISzfBmyACS2M%252CUaTT14cKZXZhDM%252C_%253BTUPxmKQ-sparcM%252CFvQHUVZ-cx81xM%252C_%253BWgJP1HLvsHDWSM%252C-_VDyVVleiKWeM%252C_%253B-h20Jdis7Qx6mM%252C1OYXNPk0ZutdDM%252C_%253BVT5qYdgyTZyr8M%252CSixlWtBpRVa7SM%252C_%253B31dvrCPLIkewdM%252CdSpQ5-chSmGJjM%252C_%253BA1JLS0S6wZDMMM%252Cb5C9ViMmmhpq-M%252C_%253Bao1hFGI76RKBsM%252CbNcOzSNtObF5xM%252C_%253B8YKhHqULA_X3YM%252CSixlWtBpRVa7SM%252C_&usg=AI4_-kQPyyMYTimpbEeTcHPS2gxFVhY80A&sa=X&ved=2ahUKEwigg-uGiNr1AhUSrhQKHadOD_0Q9QF6BAgDEAE#imgrc=H6pHpB03ZEAgeM"),
+                                    "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"),
                             fit: BoxFit.cover,
                             width: 128,
                             height: 128,
@@ -90,7 +104,7 @@ class _HomeState extends State<Home> {
                               padding: EdgeInsets.all(8),
                               color: Colors.orange,
                               child: Icon(
-                                loginUser.imgUrl == null
+                                loginUser.imgUrl == ""
                                     ? Icons.add_a_photo
                                     : Icons.edit,
                                 color: Colors.white,
@@ -103,9 +117,9 @@ class _HomeState extends State<Home> {
                 ]),
                 Text(
                   "Bonjour",
-                  style: TextStyle(
+                  style: GoogleFonts.mochiyPopOne(
+                    color: CupertinoColors.black,
                     fontSize: 20,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(
@@ -121,11 +135,33 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       color: Colors.black54, fontWeight: FontWeight.w500),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("${count} ",
+                        style: GoogleFonts.mochiyPopOne(
+                          color: CupertinoColors.black,
+                          fontSize: 15,
+                        )),
+                    Text(
+                        count > 1 ? "commentaires postés" : "commentaire posté",
+                        style: GoogleFonts.mochiyPopOne(
+                          color: Colors.orange,
+                          fontSize: 15,
+                        )),
+                  ],
+                ),
                 SizedBox(
                   height: 15,
                 ),
                 ActionChip(
-                    label: Text("Deconnexion"),
+                    elevation: 8,
+                    label: Text("Deconnexion",
+                        style: GoogleFonts.mochiyPopOne(
+                          color: CupertinoColors.black,
+                          fontSize: 15,
+                        )),
+                    backgroundColor: Colors.orange,
                     onPressed: () {
                       Deconnexion(context);
                     }),
