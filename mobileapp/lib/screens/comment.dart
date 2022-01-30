@@ -50,7 +50,9 @@ class CommentMobState extends State<CommentMob> {
   }
 
   addNomImg() async {
-    if (_comments.length == 0) return;
+    if (_comments.length == 0) return setState(() {
+      init = true;
+    });
     for (int i = 0; i < _comments.length; i++) {
       for (int j = 0; j < _users.length; j++) {
         if (_comments[i]["userId"] == _users[j]["uid"])
@@ -184,9 +186,7 @@ class CommentMobState extends State<CommentMob> {
             )
           else
             Container(
-                child: Expanded(
-                    child:
-                        Center(child: const Text("No comment for this movie"))))
+                child: Center(child: const Text("No comment for this movie")))
         ],
       ),
     );
