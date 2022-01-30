@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobileapp/data/models/user_model.dart';
 import 'package:mobileapp/page/authFirebase/login.dart';
@@ -25,6 +27,7 @@ class _HomeState extends State<Home> {
   UserModel loginUser = UserModel();
   bool isLoading = false;
   bool init = false;
+  var count;
 
   @override
   void initState() {
@@ -39,11 +42,22 @@ class _HomeState extends State<Home> {
         .get()
         .then((value) {
       this.loginUser = UserModel.fromMap(value.data());
+      _getCommentsCount();
+    });
+  }
+
+  _getCommentsCount() async {
+    await FirebaseFirestore.instance
+        .collection("comment")
+        .where('userId', isEqualTo: user!.uid)
+        .get()
+        .then((value) {
       setState(() {
-        init = true;
+         count = value.size;
+         init = true;
       });
     });
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +83,8 @@ class _HomeState extends State<Home> {
                           child: Ink.image(
                             image: loginUser.imgUrl != ""
                                 ? NetworkImage("${loginUser.imgUrl}")
-                                : NetworkImage("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"),
+                                : NetworkImage(
+                                    "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"),
                             fit: BoxFit.cover,
                             width: 128,
                             height: 128,
@@ -102,9 +117,9 @@ class _HomeState extends State<Home> {
                 ]),
                 Text(
                   "Bonjour",
-                  style: TextStyle(
+                  style: GoogleFonts.mochiyPopOne(
+                    color: CupertinoColors.black,
                     fontSize: 20,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(
@@ -120,11 +135,33 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                       color: Colors.black54, fontWeight: FontWeight.w500),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("${count} ",
+                        style: GoogleFonts.mochiyPopOne(
+                          color: CupertinoColors.black,
+                          fontSize: 15,
+                        )),
+                    Text(
+                        count > 1 ? "commentaires postés" : "commentaire posté",
+                        style: GoogleFonts.mochiyPopOne(
+                          color: Colors.orange,
+                          fontSize: 15,
+                        )),
+                  ],
+                ),
                 SizedBox(
                   height: 15,
                 ),
                 ActionChip(
-                    label: Text("Deconnexion"),
+                    elevation: 8,
+                    label: Text("Deconnexion",
+                        style: GoogleFonts.mochiyPopOne(
+                          color: CupertinoColors.black,
+                          fontSize: 15,
+                        )),
+                    backgroundColor: Colors.orange,
                     onPressed: () {
                       Deconnexion(context);
                     }),
