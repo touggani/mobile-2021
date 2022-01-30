@@ -3,8 +3,9 @@ class UserModel{
   String? email;
   String? nom;
   String? prenom;
+  String? imgUrl;
 
-  UserModel({this.uid, this.email, this.nom, this.prenom});
+  UserModel({this.uid, this.email, this.nom, this.prenom, this.imgUrl});
 
 
 //retour serveur
@@ -14,6 +15,7 @@ class UserModel{
       email: map['email'],
       nom: map['nom'],
       prenom: map['prenom'],
+      imgUrl: map['imgUrl'],
     );
   }
 
@@ -23,7 +25,8 @@ class UserModel{
       'uid': uid,
       'email': email,
       'nom': nom,
-      'prenom': prenom
+      'prenom': prenom,
+      'imgUrl': imgUrl
     };
   }
 }

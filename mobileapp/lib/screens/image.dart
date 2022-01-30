@@ -364,6 +364,7 @@ class _MyImageState extends State<MyImage> {
                     .toList(),
               ),
             ),
+            Divider(),
             Container(
               // don't forget about height
 
