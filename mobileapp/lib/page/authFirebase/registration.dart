@@ -238,7 +238,14 @@ class _RegistrationState extends State<Registration> {
       .then((value) => {
         postDetailsToFirestore()
       }).catchError((e){
-        Fluttertoast.showToast(msg: e!.message);
+        Fluttertoast.showToast(
+            msg: e!.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.SNACKBAR,
+            timeInSecForIosWeb: 3,
+            backgroundColor: Colors.orange,
+            textColor: Colors.black,
+            fontSize: 16.0);
       });
     }
   }
@@ -254,7 +261,14 @@ class _RegistrationState extends State<Registration> {
     userModel.prenom = secondNameEditingController.text;
 
     await firebaseFirestore.collection("users").doc(user.uid).set(userModel.toMap());
-    Fluttertoast.showToast(msg: "Compte créer avec succés");
+    Fluttertoast.showToast(
+        msg: "Compte créé avec succés",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Colors.orange,
+        textColor: Colors.black,
+        fontSize: 16.0);
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Home()), (route) => false);
 
   }

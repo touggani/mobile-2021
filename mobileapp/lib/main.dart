@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
     });
       if(Hive.box("connection").get("isLoggin") && Hive.box("connection").get("isLoggin") != null){
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.orange,
@@ -62,6 +63,7 @@ class _MyAppState extends State<MyApp> {
       }
       else{
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.orange,
