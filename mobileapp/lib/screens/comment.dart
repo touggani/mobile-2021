@@ -81,7 +81,7 @@ class CommentMobState extends State<CommentMob> {
     });
   }
 
-  postComment() async {
+  Future<void> postComment() async {
     if (myController.text == "") return;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     CommentModel commentModel = CommentModel();
@@ -98,6 +98,11 @@ class CommentMobState extends State<CommentMob> {
         backgroundColor: Colors.orange,
         textColor: Colors.black,
         fontSize: 16.0);
+    if(mounted){
+      setState(() {            // Add these lines to your code
+
+      });
+    }
   }
 
   @override
@@ -133,6 +138,8 @@ class CommentMobState extends State<CommentMob> {
               child: TextButton(
                 onPressed: () {
                   postComment();
+                  myController.clear();
+
                 },
                 child: const Text(
                   "Add comment",
@@ -155,7 +162,7 @@ class CommentMobState extends State<CommentMob> {
                               : Image.network(_comments[index]["imgUrl"]),
                           title: Text(
                             _comments[index]["nom"] == null
-                                ? 'Toto'
+                                ? 'Unknown'
                                 : _comments[index]["nom"],
                             style: GoogleFonts.roboto(
                               color: Colors.orange,
