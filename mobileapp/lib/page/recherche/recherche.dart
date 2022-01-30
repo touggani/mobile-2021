@@ -60,6 +60,7 @@ class _RechercheState extends State<Recherche> {
       loading = true;
       _films = [];
       _apiResult = null;
+      _genreQuery = '';
     });
     if (rechercheParGenre) {
       getSearchGenre();
