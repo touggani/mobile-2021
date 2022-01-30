@@ -47,7 +47,15 @@ class CommentMobState extends State<CommentMob> {
     commentModel.comment = myController.text;
     commentModel.timestamp = Timestamp.now();
     await firebaseFirestore.collection("comment").add(commentModel.toMap());
-    //Fluttertoast.showToast(msg: "Commentaire publié");
+    Fluttertoast.showToast(
+        msg: "Commentaire ajouté !",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 3,
+        backgroundColor: Colors.orange,
+        textColor: Colors.black,
+        fontSize: 16.0
+    );
   }
 
   @override
@@ -90,12 +98,15 @@ class CommentMobState extends State<CommentMob> {
             controller: myController,
           ),
         ),
-        TextButton(
-          onPressed: () {
-            postComment();
-          },
-          child: const Text(
-            "Add comment",
+        Container(
+          height: 50,
+          child: TextButton(
+            onPressed: () {
+              postComment();
+            },
+            child: const Text(
+              "Add comment",
+            ),
           ),
         )
       ],
@@ -105,7 +116,7 @@ class CommentMobState extends State<CommentMob> {
   Widget _getComment() {
     if (_comments.isNotEmpty) {
       return Container(
-        height: 200,
+        height: 400,
         child: ListView.builder(
             itemCount: _comments.length,
             itemBuilder: (BuildContext context, int index) {
@@ -127,9 +138,10 @@ class CommentMobState extends State<CommentMob> {
                 ),
               );
             }),
+        //Container(height:50,child: Text("blabla")),
       );
     } else {
-      return const Center(child: Text("No comment for this movie"));
+      return Center(child: const Text("No comment for this movie"));
     }
   }
 }
