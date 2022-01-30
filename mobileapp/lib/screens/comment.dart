@@ -1,18 +1,18 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:mobileapp/models/comment_model.dart';
 import 'package:mobileapp/providers/firestore_storage.dart';
 
 import 'filmImage.dart';
 
 class CommentMob extends StatefulWidget {
-
   const CommentMob({
     Key? key,
     required this.movie,
-
   }) : super(key: key);
 
   final FilmImage movie;
@@ -23,99 +23,80 @@ class CommentMob extends StatefulWidget {
 
 class CommentMobState extends State<CommentMob> {
   List _comments = [];
+  late final Box box;
+  late TextEditingController myController;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    box = Hive.box('connection');
+    myController = TextEditingController();
+    StorageHelper().getComment(widget.movie.id!).then((value) => {
+          setState(() {
+            _comments = value.toList();
+          })
+        });
+  }
 
-
+  postComment() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    CommentModel commentModel = CommentModel();
+    commentModel.movieId = widget.movie.id;
+    commentModel.userId = box.get("uid");
+    commentModel.comment = myController.text;
+    commentModel.timestamp = Timestamp.now();
+    await firebaseFirestore.collection("comment").add(commentModel.toMap());
+    //Fluttertoast.showToast(msg: "Commentaire publié");
+  }
 
   @override
   Widget build(BuildContext context) {
-   // int? movieId = widget.movie.id;
+    // int? movieId = widget.movie.id;
     //String getText = "";
 
-
-    StorageHelper().getComment(widget.movie.id!).then((value) =>
-    {
-
-      if (this.mounted) {
-        setState(() {
-          _comments = value.toList();
-        })
-      }
-    })
-    ;
-
-    StorageHelper().saveComment().then((value) =>
+    /*StorageHelper().saveComment().then((value) =>
     {
     if (this.mounted) {
       //getText = myController.text,
      // movieId = widget.movie.id
     }
       }
-    );
+    );*/
 
-
-
-
-    return Scaffold(
-
-        body: SingleChildScrollView(
-
-          child:
-        Container (
-        height: 200,
-
-        child :Center(
-
-
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-
-                Text(
-                  widget.movie.id.toString(),
-                  style: const TextStyle(
-                      fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-
-
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "COMMENT : ",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                _getComment(),
-                _setComment()
-              ],
-            ),
+    return Column(
+      children: [
+        Center(
+          child: Text(
+            "COMMENT : ",
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        ),
-     );
+        _setComment(),
+        _getComment(),
+      ],
+    );
   }
 
   Widget _setComment() {
-var myController;
-    return Row(
+    if (!box.get("isLoggin"))
+      return Text(
+          "Vous n'êtes pas connecté, vous ne pouvez pas écrire de commentaire.");
+    return Column(
       children: [
-        Expanded(
-            child:
-            Padding(
+        Padding(
           padding: const EdgeInsets.all(16.0),
           child: TextField(
-            controller: myController.text,
+            controller: myController,
           ),
         ),
-
-        ),
-        Expanded(
-            child: TextButton(
-    onPressed: StorageHelper().saveComment,
-    child: Text(
-    "Add comment",
-    ),
-    )
+        TextButton(
+          onPressed: () {
+            postComment();
+          },
+          child: const Text(
+            "Add comment",
+          ),
         )
       ],
     );
@@ -123,22 +104,29 @@ var myController;
 
   Widget _getComment() {
     if (_comments.isNotEmpty) {
-
-
-      return Expanded(
-        child: ListView.separated(
-            padding: const EdgeInsets.all(8),
-    itemCount: _comments.length,
-    itemBuilder: (BuildContext context, int index) {
-        return  Text(_comments[index]["comment"].toString(),
-          style: GoogleFonts.roboto(
-            color: Colors.orange,
-            //fontSize: 15,
-          ),
-        );
-    },
-            separatorBuilder: (BuildContext context, int index) => const Divider()
-          ),
+      return Container(
+        height: 200,
+        child: ListView.builder(
+            itemCount: _comments.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                child: Expanded(
+                  child: ListTile(
+                      title: Text(
+                        _comments[index]["userId"].toString(),
+                        style: GoogleFonts.roboto(
+                          color: Colors.orange,
+                          //fontSize: 15,
+                        ),
+                      ),
+                      subtitle: Text(_comments[index]["comment"].toString(),
+                          style: GoogleFonts.roboto(
+                            color: Colors.black,
+                            //fontSize: 15,
+                          ))),
+                ),
+              );
+            }),
       );
     } else {
       return const Center(child: Text("No comment for this movie"));

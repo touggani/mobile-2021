@@ -366,7 +366,8 @@ class _MyImageState extends State<MyImage> {
             ),
 
 
-                Expanded(
+                Container(
+                  height: 800,
                   // don't forget about height
 
                   child:
