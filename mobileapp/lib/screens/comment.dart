@@ -36,17 +36,22 @@ class CommentMobState extends State<CommentMob> {
     super.initState();
     box = Hive.box('connection');
     myController = TextEditingController();
+    recupComment();
+  }
+
+  recupComment() {
     StorageHelper().getComment(widget.movie.id!).then((comments) => {
-          setState(() {
-            _comments = comments.toList();
-          }),
-          StorageHelper().getUsers().then((users) => {
-                setState(() {
-                  _users = users.toList();
-                }),
-                addNomImg()
-              })
-        });
+      setState(() {
+        _comments = comments.toList();
+        print(_comments.length);
+      }),
+      StorageHelper().getUsers().then((users) => {
+        setState(() {
+          _users = users.toList();
+        }),
+        addNomImg()
+      })
+    });
   }
 
   addNomImg() async {
@@ -98,6 +103,10 @@ class CommentMobState extends State<CommentMob> {
         backgroundColor: Colors.orange,
         textColor: Colors.black,
         fontSize: 16.0);
+    setState(() {
+      myController.text = "";
+    });
+    recupComment();
   }
 
   @override
