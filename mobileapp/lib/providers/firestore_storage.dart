@@ -10,13 +10,13 @@ class StorageHelper {
 
   var uid = Hive.box("connection").get("uid");
 
-  void saveComment({comment, movie, date}) {
+  Future<void> saveComment( { commentText, movieId}) async {
     comments
         .add({
-      "comment": comment,
-      "uid": uid,
-      "movie": movie,
-      "date" : date,
+      "comment": commentText,
+      "UserUid": uid,
+      "movieId": movieId,
+      "date" : DateTime.now().toString(),
     })
         .then((value) => print("Comment Added"))
         .catchError((error) => print("Failed to add comment: $error"));

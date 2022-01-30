@@ -1,11 +1,11 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobileapp/providers/firestore_storage.dart';
 
 import 'filmImage.dart';
-
 
 class CommentMob extends StatefulWidget {
 
@@ -24,8 +24,14 @@ class CommentMob extends StatefulWidget {
 class CommentMobState extends State<CommentMob> {
   List _comments = [];
 
+
+
+
   @override
   Widget build(BuildContext context) {
+   // int? movieId = widget.movie.id;
+    //String getText = "";
+
 
     StorageHelper().getComment(widget.movie.id!).then((value) =>
     {
@@ -37,6 +43,18 @@ class CommentMobState extends State<CommentMob> {
       }
     })
     ;
+
+    StorageHelper().saveComment().then((value) =>
+    {
+    if (this.mounted) {
+      //getText = myController.text,
+     // movieId = widget.movie.id
+    }
+      }
+    );
+
+
+
 
     return Scaffold(
 
@@ -67,7 +85,8 @@ class CommentMobState extends State<CommentMob> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                _getOpinion()
+                _getComment(),
+                _setComment()
               ],
             ),
           ),
@@ -76,7 +95,33 @@ class CommentMobState extends State<CommentMob> {
      );
   }
 
-  Widget _getOpinion() {
+  Widget _setComment() {
+var myController;
+    return Row(
+      children: [
+        Expanded(
+            child:
+            Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TextField(
+            controller: myController.text,
+          ),
+        ),
+
+        ),
+        Expanded(
+            child: TextButton(
+    onPressed: StorageHelper().saveComment,
+    child: Text(
+    "Add comment",
+    ),
+    )
+        )
+      ],
+    );
+  }
+
+  Widget _getComment() {
     if (_comments.isNotEmpty) {
 
 
