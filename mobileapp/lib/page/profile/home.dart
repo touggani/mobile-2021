@@ -67,10 +67,9 @@ class _HomeState extends State<Home> {
                       child: Material(
                           color: Colors.transparent,
                           child: Ink.image(
-                            image: loginUser.imgUrl != null
+                            image: loginUser.imgUrl != ""
                                 ? NetworkImage("${loginUser.imgUrl}")
-                                : NetworkImage(
-                                    "https://www.google.com/search?q=profile+image&rlz=1C1CHBF_frFR967FR967&tbm=isch&source=iu&ictx=1&vet=1&fir=H6pHpB03ZEAgeM%252Cwg0CyFWNfK7o5M%252C_%253B6LZBULRxg_WfYM%252Cb5C9ViMmmhpq-M%252C_%253BB3G4vEo9lSBh0M%252CFvQHUVZ-cx81xM%252C_%253BJpaFCmffhUdABM%252CeirPelkp9eoYkM%252C_%253BgRmIHR3owD_V0M%252CpmE0x0RqkiBF7M%252C_%253BjAbbSdWZuoI5VM%252CbNcOzSNtObF5xM%252C_%253Bbn2FhB9xAX_09M%252CAxbDaKpnLJRHjM%252C_%253BuXISzfBmyACS2M%252CUaTT14cKZXZhDM%252C_%253BTUPxmKQ-sparcM%252CFvQHUVZ-cx81xM%252C_%253BWgJP1HLvsHDWSM%252C-_VDyVVleiKWeM%252C_%253B-h20Jdis7Qx6mM%252C1OYXNPk0ZutdDM%252C_%253BVT5qYdgyTZyr8M%252CSixlWtBpRVa7SM%252C_%253B31dvrCPLIkewdM%252CdSpQ5-chSmGJjM%252C_%253BA1JLS0S6wZDMMM%252Cb5C9ViMmmhpq-M%252C_%253Bao1hFGI76RKBsM%252CbNcOzSNtObF5xM%252C_%253B8YKhHqULA_X3YM%252CSixlWtBpRVa7SM%252C_&usg=AI4_-kQPyyMYTimpbEeTcHPS2gxFVhY80A&sa=X&ved=2ahUKEwigg-uGiNr1AhUSrhQKHadOD_0Q9QF6BAgDEAE#imgrc=H6pHpB03ZEAgeM"),
+                                : NetworkImage("https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"),
                             fit: BoxFit.cover,
                             width: 128,
                             height: 128,
