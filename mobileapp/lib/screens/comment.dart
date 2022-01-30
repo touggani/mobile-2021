@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mobileapp/providers/firestore_storage.dart';
 
 import 'filmImage.dart';
@@ -78,10 +79,22 @@ class CommentMobState extends State<CommentMob> {
   Widget _getOpinion() {
     if (_comments.isNotEmpty) {
 
-      return Text(
-        _comments[0]["comment"].toString(),
 
+      return Expanded(
+        child: ListView.separated(
+            padding: const EdgeInsets.all(8),
+    itemCount: _comments.length,
+    itemBuilder: (BuildContext context, int index) {
+        return  Text(_comments[index]["comment"].toString(),
+          style: GoogleFonts.roboto(
+            color: Colors.orange,
+            //fontSize: 15,
+          ),
         );
+    },
+            separatorBuilder: (BuildContext context, int index) => const Divider()
+          ),
+      );
     } else {
       return const Center(child: Text("No comment for this movie"));
     }
