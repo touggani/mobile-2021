@@ -382,10 +382,12 @@ class _MyImageState extends State<MyImage> {
                     ),])),
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Wrap(
+                      child: Wrap(spacing: 5,
+                        //alignment: WrapAlignment.center,
                           children: _film.genres!
                               .map((e) =>
                               Chip(
+                                padding: const EdgeInsets.all(0),
                                 label: Text(e.name.toString(), style: GoogleFonts.roboto(
                                   color: Colors.orange,
                                   //fontSize: 15,
