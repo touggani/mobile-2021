@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                               padding: EdgeInsets.all(8),
                               color: Colors.orange,
                               child: Icon(
-                                loginUser.imgUrl == null
+                                loginUser.imgUrl == ""
                                     ? Icons.add_a_photo
                                     : Icons.edit,
                                 color: Colors.white,
