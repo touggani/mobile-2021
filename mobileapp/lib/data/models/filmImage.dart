@@ -1,5 +1,4 @@
-import 'package:mobileapp/screens/collection.dart';
-
+import 'collection.dart';
 import 'genre.dart';
 
 class FilmImage {

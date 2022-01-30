@@ -47,7 +47,7 @@ class _navigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Lottie.asset("assets/camera-moving.json"),
+        leading: Lottie.asset("assets/clap.json"),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,

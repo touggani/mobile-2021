@@ -1,16 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mobileapp/screens/filmImage.dart';
-import 'comment.dart';
-import 'film.dart';
+import 'package:mobileapp/data/models/film.dart';
+import 'package:mobileapp/data/models/filmImage.dart';
+import 'package:mobileapp/page/global/loading.dart';
 import 'package:http/http.dart' as http;
-
-import 'loading.dart';
+import 'package:mobileapp/screens/comment.dart';
 
 class MyImage extends StatefulWidget {
   const MyImage({Key? key, this.film}) : super(key: key);
@@ -167,6 +165,7 @@ class _MyImageState extends State<MyImage> {
                             setState(() {
                               _isLikeOn = !_isLikeOn;
                             });
+                            _getAddDelete(film);
                             final snackBar = SnackBar(
                               content: _isLikeOn == true
                                   ? Text('Vous avez ajouté ' +
@@ -181,6 +180,7 @@ class _MyImageState extends State<MyImage> {
                                   setState(() {
                                     _isLikeOn = !_isLikeOn;
                                   });
+                                  _getAddDelete(film);
                                   final snackBar = SnackBar(
                                       content: _isLikeOn == true
                                           ? Text(film.title.toString() +

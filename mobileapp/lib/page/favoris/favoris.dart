@@ -4,9 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:lottie/lottie.dart';
-import '../../data/models/film.dart';
 import '../film/image.dart';
+import 'package:lottie/lottie.dart';
 
 class Favoris extends StatefulWidget {
   @override
@@ -165,7 +164,7 @@ class _FavorisState extends State<Favoris> {
     valueListenable: Hive.box('favorites').listenable(),
     builder: (context, Box box, _) {
     if (box.values.length == 0)
-      return Container(child: Lottie.asset("assets/cinema-hal.json"));
+      return Container(child: Lottie.asset("assets/camera-moving.json"));
     return
       Container(
     child: TextButton(

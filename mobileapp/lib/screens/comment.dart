@@ -5,12 +5,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:mobileapp/data/models/filmImage.dart';
 import 'package:mobileapp/models/comment_model.dart';
-import 'package:mobileapp/models/user_model.dart';
+import 'package:mobileapp/page/global/loading.dart';
 import 'package:mobileapp/providers/firestore_storage.dart';
-import 'package:mobileapp/screens/loading.dart';
-
-import 'filmImage.dart';
 
 class CommentMob extends StatefulWidget {
   const CommentMob({

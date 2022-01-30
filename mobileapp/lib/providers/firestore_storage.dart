@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:mobileapp/models/user_model.dart';
-import 'package:mobileapp/screens/registration.dart';
+import 'package:mobileapp/data/models/user_model.dart';
 
 class StorageHelper {
   CollectionReference comments =  FirebaseFirestore.instance.collection('comment');
