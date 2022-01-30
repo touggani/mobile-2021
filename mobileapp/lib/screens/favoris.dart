@@ -11,7 +11,6 @@ class Favoris extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = Hive.box('favorites');
-    print(Hive.box("favorites").length);
 
 
     return Scaffold(
@@ -34,14 +33,16 @@ class Favoris extends StatelessWidget {
                           textStyle: const TextStyle(fontSize: 20),
                         ),
                         onPressed: (){
-                          Hive.box("favorites").delete(index);
+                          print("before: ${box.keys}");
+                          Hive.box("favorites").deleteAt(index);
+                          print("index supp ${index}");
+                          print("after: ${box.keys}");
                           //Hive.box("favorites").clear();
                         },
                         child: const Text('Effacer'),
                       ),
                     ],)
-              );
-              },
+              );},
             ),
 
           ),
