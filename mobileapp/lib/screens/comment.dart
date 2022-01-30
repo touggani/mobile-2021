@@ -150,7 +150,7 @@ class CommentMobState extends State<CommentMob> {
                           (_comments[index]["timestamp"] as Timestamp).toDate();
                       return Card(
                         child: ListTile(
-                          leading: _comments[index]["imgUrl"] == null
+                          leading: (_comments[index]["imgUrl"] == "" || _comments[index]["imgUrl"] == null)
                               ? Image.asset("assets/blank-profile.png")
                               : Image.network(_comments[index]["imgUrl"]),
                           title: Text(
