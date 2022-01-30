@@ -15,6 +15,7 @@ import 'loading.dart';
 class MyImage extends StatefulWidget {
   const MyImage({Key? key, this.film}) : super(key: key);
   final film;
+
   @override
   State<MyImage> createState() => _MyImageState();
 }
@@ -123,312 +124,260 @@ class _MyImageState extends State<MyImage> {
     //Plein écran lors de l'affichage de la fenêtre
     //SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     return NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              foregroundColor: Colors.black,
-              expandedHeight: MediaQuery.of(context).size.height / 3,
-              backgroundColor: Colors.transparent,
-              floating: false,
-              pinned: true,
-              snap: false,
-
-              flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-
-                  titlePadding: EdgeInsetsDirectional.all(0),
-                  title: Stack(children: [
-                    Container(
-                      color: Colors.white.withOpacity(0.7),
-                      child : Row(
-
-                        children: <Widget>[
-
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 52.0, top: 5.0, bottom: 5.0),
-                              child: Text(
-                                  film.title!,
-                                  textAlign: TextAlign.center,
-
-                                  style: GoogleFonts.mochiyPopOne(
-                                    color: CupertinoColors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w900,
-                                  )),
-                            ),
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+            foregroundColor: Colors.black,
+            expandedHeight: MediaQuery.of(context).size.height / 3,
+            backgroundColor: Colors.transparent,
+            floating: false,
+            pinned: true,
+            snap: false,
+            flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                titlePadding: EdgeInsetsDirectional.all(0),
+                title: Stack(children: [
+                  Container(
+                    color: Colors.white.withOpacity(0.7),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 52.0, top: 5.0, bottom: 5.0),
+                            child: Text(film.title!,
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.mochiyPopOne(
+                                  color: CupertinoColors.black,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w900,
+                                )),
                           ),
-
-                          IconButton(
-                            padding: const EdgeInsets.only(left: 0, top: 5.0, right: 20.0,bottom: 5.0),
-                            icon: Icon(
-                              _isLikeOn == true ? Icons.favorite :
-                              Icons.favorite_border,
-                              color: Colors.orange,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isLikeOn = !_isLikeOn;
-                              });
-                              final snackBar = SnackBar(
-                                content: _isLikeOn == true
-                                    ? Text('Vous avez ajouté ' +
-                                    film.title.toString() +
-                                    ' à vos favoris.')
-                                    : Text('Vous avez retiré ' +
-                                    film.title.toString() +
-                                    ' de vos favoris.'),
-                                action: SnackBarAction(
-                                  label: 'Annuler',
-                                  onPressed: () {
-                                    setState(() {
-                                      _isLikeOn = !_isLikeOn;
-                                    });
-                                    final snackBar = SnackBar(
-                                        content: _isLikeOn == true
-                                            ? Text(film.title.toString() +
-                                            ' a été rajouté à vos favoris.')
-                                            : Text(film.title.toString() +
-                                            ' a été retiré de vos favoris.'));
-                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                  },
-                                ),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                            },
+                        ),
+                        IconButton(
+                          padding: const EdgeInsets.only(
+                              left: 0, top: 5.0, right: 20.0, bottom: 5.0),
+                          icon: Icon(
+                            _isLikeOn == true
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: Colors.orange,
                           ),
-                        ],
-                      ),
-
+                          onPressed: () {
+                            setState(() {
+                              _isLikeOn = !_isLikeOn;
+                            });
+                            final snackBar = SnackBar(
+                              content: _isLikeOn == true
+                                  ? Text('Vous avez ajouté ' +
+                                      film.title.toString() +
+                                      ' à vos favoris.')
+                                  : Text('Vous avez retiré ' +
+                                      film.title.toString() +
+                                      ' de vos favoris.'),
+                              action: SnackBarAction(
+                                label: 'Annuler',
+                                onPressed: () {
+                                  setState(() {
+                                    _isLikeOn = !_isLikeOn;
+                                  });
+                                  final snackBar = SnackBar(
+                                      content: _isLikeOn == true
+                                          ? Text(film.title.toString() +
+                                              ' a été rajouté à vos favoris.')
+                                          : Text(film.title.toString() +
+                                              ' a été retiré de vos favoris.'));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                },
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          },
+                        ),
+                      ],
                     ),
-                  ]),
-                  background: Image.network(
-                    film.backdropPath != null
-                        ? 'https://image.tmdb.org/t/p/w500/' + film.backdropPath!
-                        : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png',
-                    fit: BoxFit.cover,
-                  )),
-            ),
-          ];
-        },
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-
-              //Expanded(child: ListView(children: _widgetList(_film))),
-              Expanded(child:
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row( mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30, top: 20.0),
-                          child: Text("Durée : ",
-                              textAlign: TextAlign.left, // has impact
-                              style: GoogleFonts.roboto(
-
-                                color: CupertinoColors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text(durationToString(_film.runtime!) ,
-                                textAlign: TextAlign.left, // has impact
-                                style: GoogleFonts.roboto(
-                                  color: CupertinoColors.black,
-
-                                ))
-                        ),
-                      ),
-                    ],
                   ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30.0, top: 20.0),
-                          child: Text("Genre : ",
-                              textAlign: TextAlign.left, // has impact
-                              style: GoogleFonts.roboto(
-
-                                color: CupertinoColors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text(_film.genres.toString() ,
-                                textAlign: TextAlign.left, // has impact
-                                style: GoogleFonts.roboto(
-                                  color: CupertinoColors.black,
-                                ))
-                        ),
-                      ),
-                    ],
+                ]),
+                background: Image.network(
+                  film.backdropPath != null
+                      ? 'https://image.tmdb.org/t/p/w500/' + film.backdropPath!
+                      : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1200px-No_image_3x4.svg.png',
+                  fit: BoxFit.cover,
+                )),
+          ),
+        ];
+      },
+      body: Padding(
+        padding: const EdgeInsets.all(30.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    //flex: 1,
+                    child: Text("Durée : ",
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                          fontWeight: FontWeight.w700,
+                        )),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30.0, top: 20.0),
-                          child: Text("Date de sortie : ",
-                              textAlign: TextAlign.left, // has impact
-                              style: GoogleFonts.roboto(
-
-                                color: CupertinoColors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text(_film.releaseDate! ,
-                                textAlign: TextAlign.left, // has impact
-                                style: GoogleFonts.roboto(
-                                  color: CupertinoColors.black,
-
-                                ))
-                        ),
-                      ),
-                    ],
+                  Expanded(
+                    flex: 2,
+                    child: Text(durationToString(_film.runtime!),
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                        )),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30.0, top: 20.0),
-                          child: Text("Statue : ",
-                              textAlign: TextAlign.left, // has impact
-                              style: GoogleFonts.roboto(
-
-                                color: CupertinoColors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text(_film.status! ,
-                                textAlign: TextAlign.left, // has impact
-                                style: GoogleFonts.roboto(
-                                  color: CupertinoColors.black,
-
-                                ))
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30.0, top: 20.0),
-                          child: Text("Note moyenne : ",
-                              textAlign: TextAlign.left, // has impact
-                              style: GoogleFonts.roboto(
-
-                                color: CupertinoColors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text(_film.voteAverage.toString() ,
-                                textAlign: TextAlign.left, // has impact
-                                style: GoogleFonts.roboto(
-                                  color: CupertinoColors.black,
-
-                                ))
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30.0, top: 20.0),
-                          child: Text("Synopsis : ",
-                              textAlign: TextAlign.left, // has impact
-                              style: GoogleFonts.roboto(
-
-                                color: CupertinoColors.black,
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30.0, top: 5.0),
-                          child:
-                          Text(_film.overview!,
-                              textAlign: TextAlign.left, // has impact
-                              style: GoogleFonts.roboto(
-
-                                color: CupertinoColors.black,
-                              )),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        // don't forget about height
-                        height: 200,
-                        width: 200,
-                        child:
-                        CommentMob(movie: _film),
-
-                      ),
-                    ],
-                  ),
-
-                  //Text(name)
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text("Date de sortie : ",
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                          fontWeight: FontWeight.w700,
+                        )),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(_film.releaseDate!,
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text("Statut : ",
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                          fontWeight: FontWeight.w700,
+                        )),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(_film.status!,
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text("Note moyenne : ",
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                          fontWeight: FontWeight.w700,
+                        )),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(_film.voteAverage.toString(),
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text("Synopsis : ",
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                          fontWeight: FontWeight.w700,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(_film.overview!,
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: Row(children: <Widget>[
+                  Expanded(
+                    child: Text("Genre : ",
+                        textAlign: TextAlign.left, // has impact
+                        style: GoogleFonts.roboto(
+                          color: CupertinoColors.black,
+                          fontWeight: FontWeight.w700,
+                        )),
+                  ),
+                ])),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                spacing: 5,
+                //alignment: WrapAlignment.center,
+                children: _film.genres!
+                    .map((e) => Chip(
+                          padding: const EdgeInsets.all(0),
+                          label: Text(e.name.toString(),
+                              style: GoogleFonts.roboto(
+                                color: Colors.orange,
+                                //fontSize: 15,
+                              )),
+                        ))
+                    .toList(),
+              ),
+            ),
 
-              ),
-              ),
-            ]
-        )
+
+                Expanded(
+                  // don't forget about height
+
+                  child:
+                  CommentMob(movie: _film),
+
+                ),
+
+
+          ],
+        ),
+      ),
     );
   }
 }
