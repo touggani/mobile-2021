@@ -54,94 +54,73 @@ class CommentMobState extends State<CommentMob> {
         timeInSecForIosWeb: 3,
         backgroundColor: Colors.orange,
         textColor: Colors.black,
-        fontSize: 16.0
-    );
+        fontSize: 16.0);
   }
 
   @override
   Widget build(BuildContext context) {
-    // int? movieId = widget.movie.id;
-    //String getText = "";
-
-    /*StorageHelper().saveComment().then((value) =>
-    {
-    if (this.mounted) {
-      //getText = myController.text,
-     // movieId = widget.movie.id
-    }
-      }
-    );*/
-
-    return Column(
-      children: [
-        Center(
-          child: Text(
-            "COMMENT : ",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        _setComment(),
-        _getComment(),
-      ],
-    );
-  }
-
-  Widget _setComment() {
-    if (!box.get("isLoggin"))
-      return Text(
-          "Vous n'êtes pas connecté, vous ne pouvez pas écrire de commentaire.");
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            controller: myController,
-          ),
-        ),
-        Container(
-          height: 50,
-          child: TextButton(
-            onPressed: () {
-              postComment();
-            },
-            child: const Text(
-              "Add comment",
+    return Expanded(
+      child: Column(
+        children: [
+          Center(
+            child: Container(
+              child: Text(
+                "COMMENT : ",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
-        )
-      ],
-    );
-  }
-
-  Widget _getComment() {
-    if (_comments.isNotEmpty) {
-      return Container(
-        height: 400,
-        child: ListView.builder(
-            itemCount: _comments.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                child: Expanded(
-                  child: ListTile(
-                      title: Text(
-                        _comments[index]["userId"].toString(),
-                        style: GoogleFonts.roboto(
-                          color: Colors.orange,
-                          //fontSize: 15,
-                        ),
-                      ),
-                      subtitle: Text(_comments[index]["comment"].toString(),
-                          style: GoogleFonts.roboto(
-                            color: Colors.black,
-                            //fontSize: 15,
-                          ))),
+          if (!box.get("isLoggin"))
+            Container(
+              child: Text(
+                  "Vous n'êtes pas connecté, vous ne pouvez pas écrire de commentaire."),
+            ),
+          if (box.get("isLoggin"))
+            Container(
+              child: TextField(
+                controller: myController,
+              ),
+            ),
+          if (box.get("isLoggin"))
+            Container(
+              child: TextButton(
+                onPressed: () {
+                  postComment();
+                },
+                child: const Text(
+                  "Add comment",
                 ),
-              );
-            }),
-        //Container(height:50,child: Text("blabla")),
-      );
-    } else {
-      return Center(child: const Text("No comment for this movie"));
-    }
+              ),
+            ),
+          if (_comments.isNotEmpty)
+            Container(
+              //height: 300,
+              child: Expanded(
+                child: ListView.builder(
+                    itemCount: _comments.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                        child: ListTile(
+                            title: Text(
+                              _comments[index]["userId"].toString(),
+                              style: GoogleFonts.roboto(
+                                color: Colors.orange,
+                                //fontSize: 15,
+                              ),
+                            ),
+                            subtitle: Text(_comments[index]["comment"].toString(),
+                                style: GoogleFonts.roboto(
+                                  color: Colors.black,
+                                  //fontSize: 15,
+                                ))),
+                      );
+                    }),
+              ),
+            )
+          else
+            Center(child: Container(child: const Text("No comment for this movie")))
+        ],
+      ),
+    );
   }
 }

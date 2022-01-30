@@ -364,17 +364,11 @@ class _MyImageState extends State<MyImage> {
                     .toList(),
               ),
             ),
+            Container(
+              // don't forget about height
 
-
-                Expanded(
-                  // don't forget about height
-
-                  child:
-                  CommentMob(movie: _film),
-
-                ),
-
-
+              child: CommentMob(movie: _film),
+            ),
           ],
         ),
       ),
