@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
   FirebaseStorage storage = FirebaseStorage.instance;
   UserModel loginUser = UserModel();
   bool isLoading = false;
+  bool init = false;
 
   @override
   void initState() {
@@ -38,12 +39,15 @@ class _HomeState extends State<Home> {
         .get()
         .then((value) {
       this.loginUser = UserModel.fromMap(value.data());
-      setState(() {});
+      setState(() {
+        init = true;
+      });
     });
 }
 
   @override
   Widget build(BuildContext context) {
+    if (!init) return Loading();
     if (isLoading) return Loading();
     return Scaffold(
       body: Center(
