@@ -11,6 +11,8 @@ class Registration extends StatefulWidget {
 
   @override
   _RegistrationState createState() => _RegistrationState();
+
+
 }
 
 class _RegistrationState extends State<Registration> {
@@ -23,6 +25,8 @@ class _RegistrationState extends State<Registration> {
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -239,6 +243,7 @@ class _RegistrationState extends State<Registration> {
     }
   }
 
+
   postDetailsToFirestore() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
@@ -253,4 +258,5 @@ class _RegistrationState extends State<Registration> {
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Home()), (route) => false);
 
   }
+
 }

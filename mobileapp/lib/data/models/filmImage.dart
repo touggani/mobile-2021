@@ -1,4 +1,4 @@
-import 'package:mobileapp/data/models/collection.dart';
+import 'package:mobileapp/screens/collection.dart';
 
 import 'genre.dart';
 
@@ -59,11 +59,9 @@ class FilmImage {
   FilmImage.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    if (json['belongs_to_collection'] != null) {
-      belongsToCollection = new Collection.fromJson(json['belongs_to_collection']);
-    } else {
-      belongsToCollection = null;
-    }
+    belongsToCollection = json['belongs_to_collection'] != null
+        ? new Collection.fromJson(json['belongs_to_collection'])
+        : null;
     budget = json['budget'];
     if (json['genres'] != null) {
       genres = <Genres>[];

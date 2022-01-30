@@ -45,6 +45,8 @@ class _MyAppState extends State<MyApp> {
         print('User is currently signed out!');
       } else {
         Hive.box("connection").put("isLoggin", true);
+        Hive.box("connection").put("uid", user.uid);
+
         print('User is signed in!');
       }
 
