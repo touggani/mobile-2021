@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobileapp/data/models/user_model.dart';
+import 'package:mobileapp/page/global/navigation.dart';
 import 'package:mobileapp/page/profile/home.dart';
 import 'package:mobileapp/page/authFirebase/login.dart';
 
@@ -269,7 +270,7 @@ class _RegistrationState extends State<Registration> {
         backgroundColor: Colors.orange,
         textColor: Colors.black,
         fontSize: 16.0);
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Home()), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Navigation()), (route) => false);
 
   }
 
