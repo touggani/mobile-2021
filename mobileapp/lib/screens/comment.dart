@@ -32,13 +32,17 @@ class CommentMobState extends State<CommentMob> {
 
   @override
   initState() {
-    // TODO: implement initState
     super.initState();
     box = Hive.box('connection');
     myController = TextEditingController();
+    recupComment();
+  }
+
+  recupComment() {
     StorageHelper().getComment(widget.movie.id!).then((comments) => {
           setState(() {
             _comments = comments.toList();
+            print(_comments.length);
           }),
           StorageHelper().getUsers().then((users) => {
                 setState(() {
@@ -50,9 +54,10 @@ class CommentMobState extends State<CommentMob> {
   }
 
   addNomImg() async {
-    if (_comments.length == 0) return setState(() {
-      init = true;
-    });
+    if (_comments.length == 0)
+      return setState(() {
+        init = true;
+      });
     for (int i = 0; i < _comments.length; i++) {
       for (int j = 0; j < _users.length; j++) {
         if (_comments[i]["userId"] == _users[j]["uid"])
@@ -81,7 +86,7 @@ class CommentMobState extends State<CommentMob> {
     });
   }
 
-  postComment() async {
+  Future<void> postComment() async {
     if (myController.text == "") return;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     CommentModel commentModel = CommentModel();
@@ -90,6 +95,7 @@ class CommentMobState extends State<CommentMob> {
     commentModel.comment = myController.text;
     commentModel.timestamp = Timestamp.now();
     await firebaseFirestore.collection("comment").add(commentModel.toMap());
+
     Fluttertoast.showToast(
         msg: "Commentaire ajouté !",
         toastLength: Toast.LENGTH_SHORT,
@@ -98,6 +104,10 @@ class CommentMobState extends State<CommentMob> {
         backgroundColor: Colors.orange,
         textColor: Colors.black,
         fontSize: 16.0);
+    setState(() {
+      myController.text = "";
+    });
+    recupComment();
   }
 
   @override
@@ -133,6 +143,7 @@ class CommentMobState extends State<CommentMob> {
               child: TextButton(
                 onPressed: () {
                   postComment();
+                  myController.clear();
                 },
                 child: const Text(
                   "Add comment",
@@ -150,12 +161,13 @@ class CommentMobState extends State<CommentMob> {
                           (_comments[index]["timestamp"] as Timestamp).toDate();
                       return Card(
                         child: ListTile(
-                          leading: (_comments[index]["imgUrl"] == "" || _comments[index]["imgUrl"] == null)
+                          leading: (_comments[index]["imgUrl"] == "" ||
+                                  _comments[index]["imgUrl"] == null)
                               ? Image.asset("assets/blank-profile.png")
                               : Image.network(_comments[index]["imgUrl"]),
                           title: Text(
                             _comments[index]["nom"] == null
-                                ? 'Toto'
+                                ? 'Unknown'
                                 : _comments[index]["nom"],
                             style: GoogleFonts.roboto(
                               color: Colors.orange,
